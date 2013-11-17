@@ -5324,6 +5324,10 @@ public class BatteryStatsImpl extends BatteryStats {
     }
 
     public void commitPendingDataToDisk(Parcel next) {
+        if (next == null) {
+            return;
+        }
+
         mWriteLock.lock();
 
         try {
