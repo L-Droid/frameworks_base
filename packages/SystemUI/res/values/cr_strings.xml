@@ -87,4 +87,8 @@
     <!-- Long-press back kill application -->
     <string name="app_killed_message">App killed</string>
 
+    <!-- Quick Settings -->
+    <string name="quick_settings_music_play">Play</string>
+    <string name="quick_settings_music_pause">Pause</string>
+
 </resources>
