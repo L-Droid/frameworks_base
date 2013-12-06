@@ -64,6 +64,9 @@ public class MusicTile extends QuickSettingsTile {
         mOnClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isFlipTilesEnabled()) {
+                    flipTile(0);
+                }
                 sendMediaButtonClick(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
             }
         };
@@ -71,6 +74,9 @@ public class MusicTile extends QuickSettingsTile {
         mOnLongClick = new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                if (isFlipTilesEnabled()) {
+                    flipTile(0);
+                }
                 sendMediaButtonClick(KeyEvent.KEYCODE_MEDIA_NEXT);
                 return true;
             }
