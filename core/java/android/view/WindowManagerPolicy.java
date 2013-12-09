@@ -1248,4 +1248,9 @@ public interface WindowManagerPolicy {
      * @hide
      */
     void toggleStatusBar();
+
+    /**
+     * @hide
+     */
+    public void updateStatusBarNavBarHeight();
 }

@@ -661,6 +661,13 @@ public abstract class BaseStatusBar extends SystemUI implements
         }
     }
 
+    protected void recreatePie(boolean enabled) {
+        if (enabled) {
+            mPieController.constructSlices();
+            mPieController.refreshContainer();
+        }
+    }
+
     public void userSwitched(int newUserId) {
         // should be overridden
     }

@@ -11102,6 +11102,12 @@ public class WindowManagerService extends IWindowManager.Stub
         mLastStatusBarVisibility |= flag;
     }
 
+    /* @hide */
+    @Override
+    public void updateStatusBarNavBarHeight() {
+        mPolicy.updateStatusBarNavBarHeight();
+    }
+
     private void moveTaskAndActivityToFront(int taskId) {
         try {
             moveTaskToTop(taskId);
