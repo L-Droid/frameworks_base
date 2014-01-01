@@ -15,17 +15,35 @@
 ** limitations under the License.
 -->
 
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:systemui="http://schemas.android.com/apk/res/com.android.systemui"
     android:id="@+id/header"
     android:layout_width="match_parent"
     android:layout_height="@dimen/notification_panel_header_height"
-    android:background="@drawable/notification_header_bg"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:baselineAligned="false"
     >
+    <ImageView
+        android:id="@+id/header_background_image"
+        android:drawable="@drawable/notification_header_bg"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:baselineAligned="false"
+        >
     <RelativeLayout
         android:id="@+id/datetime"
         android:layout_width="wrap_content"
@@ -126,4 +144,5 @@
             android:contentDescription="@string/accessibility_notifications_button"
             />
     </FrameLayout>
-</LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
