@@ -2046,4 +2046,7 @@
   <!-- USB OTG Notification -->
   <java-symbol type="string" name="usb_storage_notification_manage_message" />
 
+  <!-- for wifi auto connection -->
+  <java-symbol type="bool" name="wifi_autocon" />
+
 </resources>
