@@ -63,4 +63,7 @@ interface IPowerManager
 	void setPowerProfile(String profile);
 	String getPowerProfile();
 	void wakeUpWithProximityCheck(long time);
+
+    // blocked wakelock support
+    String getSeenWakeLocks();
 }
