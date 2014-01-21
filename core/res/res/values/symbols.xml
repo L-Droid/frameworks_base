@@ -1276,7 +1276,6 @@
   <java-symbol type="style" name="Theme.Panel.Volume" />
   <java-symbol type="style" name="Theme.DeviceDefault.FloatingWindow" />
   <java-symbol type="style" name="Theme.DeviceDefault.FloatingWindowLight" />
-
   <java-symbol type="attr" name="mediaRouteButtonStyle" />
   <java-symbol type="attr" name="externalRouteEnabledDrawable" />
   <java-symbol type="layout" name="media_route_chooser_dialog" />

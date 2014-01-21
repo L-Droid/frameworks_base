@@ -142,6 +142,7 @@ final class ActivityRecord {
 
     boolean topIntent;
     boolean newAppTask;
+    boolean newTask;
     boolean floatingWindow;
 
     int launchCount;        // count of launches since last state
@@ -429,37 +430,43 @@ final class ActivityRecord {
             }
 
             // This is where the package gets its first context from the attribute-cache
-            // In order to hook its attributes we set up our check for floating multi windows here.
+            // In order to hook its attributes we set up our check for floating mutil windows here.
             topIntent = true;
             ActivityStack stack = supervisor.getFocusedStack();
-            floatingWindow = (intent.getFlags() & Intent.FLAG_FLOATING_WINDOW) == Intent.FLAG_FLOATING_WINDOW;
+            floatingWindow = (intent.getFlags() & Intent.FLAG_FLOATING_WINDOW) == Intent.FLAG_FLOATING_WINDOW
+                    && (intent.getFlags() & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) != Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY;
             TaskRecord baseRecord = stack != null && stack.mTaskHistory.size() > 0 ? stack.mTaskHistory.get(stack.mTaskHistory.size() -1) : null;
 
             if (baseRecord != null) {
                 ActivityRecord record = baseRecord.mActivities.size() > 0 ? baseRecord.mActivities.get(baseRecord.mActivities.size() - 1) : null;
-                final boolean floats = (baseRecord.intent.getFlags() & Intent.FLAG_FLOATING_WINDOW) == Intent.FLAG_FLOATING_WINDOW;
-                final boolean taskAppAffinity = record == null ? false : aInfo.applicationInfo.packageName.equals(record.packageName);
-                newAppTask = (intent.getFlags() & Intent.FLAG_ACTIVITY_NEW_TASK) == Intent.FLAG_ACTIVITY_NEW_TASK;
+                final boolean floats = (baseRecord.intent.getFlags() & Intent.FLAG_FLOATING_WINDOW) == Intent.FLAG_FLOATING_WINDOW
+                        && (baseRecord.intent.getFlags() & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) != Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY;
+                final boolean taskAffinity = record == null ? false : aInfo.applicationInfo.packageName.equals(record.packageName);
+                newTask = (intent.getFlags() & Intent.FLAG_ACTIVITY_NEW_TASK) == Intent.FLAG_ACTIVITY_NEW_TASK;
                 // If the current intent is not a new task we will check its top parent.
                 // Perhaps it started out as a multiwindow in which case we pass the flag on
-                if (floats && (!newAppTask || taskAppAffinity)) {
+                if (floats && (!newTask || taskAffinity)) {
                     intent.addFlags(Intent.FLAG_FLOATING_WINDOW);
                     // Flag the activity as sub-task
                     topIntent = false;
                     floatingWindow = true;
                 }
             }
+
             // If this is a multiwindow activity we prevent it from messing up the history stack,
             // like jumping back home, killing the current activity or polluting recents
             if (floatingWindow) {
                 intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_TASK_ON_HOME);
                 intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                 // If this is the mother-intent we make it volatile
                 if (topIntent) {
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                 }
+
                 // Change theme
                 realTheme = com.android.internal.R.style.Theme_DeviceDefault_FloatingWindow;
             } else {
