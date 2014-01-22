@@ -4846,6 +4846,12 @@ public final class Settings {
         public static final String APP_CIRCLE_BAR_TRIGGER_TOP = "app_circle_bar_trigger_top";
 
         /**
+         * Show brightness slider in notification panel
+         * @hide
+         */
+        public static final String NOTIFICATION_BRIGHTNESS_SLIDER = "notification_brightness_slider";
+
+        /**
          * Height of the app circle bar trigger
          *
          * @hide
