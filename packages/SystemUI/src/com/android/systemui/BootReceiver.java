@@ -23,6 +23,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.provider.Settings;
 import android.util.Log;
 
@@ -41,6 +42,9 @@ public class BootReceiver extends BroadcastReceiver {
             "com.android.systemui.SCHEDULE_REMINDER_NOTIFY";
 
     private static final int FULL_DAY = 1440; // 1440 minutes in a day
+
+    private static final String KEY_MUSIC_TIMER =
+            "key_music_timer";
 
     @Override
     public void onReceive(final Context context, Intent intent) {
@@ -111,6 +115,12 @@ public class BootReceiver extends BroadcastReceiver {
             am.set(AlarmManager.RTC_WAKEUP,
                     calendar.getTimeInMillis(), notify);
         }
+
+        final SharedPreferences music_shared = context.getSharedPreferences(
+                KEY_MUSIC_TIMER, Context.MODE_PRIVATE);
+        music_shared.edit().putBoolean("scheduled", false).commit();
+        music_shared.edit().putInt("hour", -1).commit();
+        music_shared.edit().putInt("minutes", -1).commit();
 
         try {
             // Start the load average overlay, if activated
