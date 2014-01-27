@@ -283,6 +283,25 @@ public class LockSettingsService extends ILockSettings.Stub {
         }
     }
 
+    private String getLockGestureFilename(int userId) {
+        return getLockGestureFilename(userId, isDefaultSize(userId));
+    }
+
+    private String getLockGestureFilename(int userId, boolean defaultSize) {
+        String dataSystemDirectory =
+                android.os.Environment.getDataDirectory().getAbsolutePath() +
+                SYSTEM_DIRECTORY;
+        String patternFile = LOCK_GESTURE_FILE;
+
+        if (userId == 0) {
+            // Leave it in the same place for user 0
+            return dataSystemDirectory + patternFile;
+        } else {
+            return  new File(Environment.getUserSystemDirectory(userId), patternFile)
+                    .getAbsolutePath();
+        }
+    }
+
     private String getLockPasswordFilename(int userId) {
         String dataSystemDirectory =
                 android.os.Environment.getDataDirectory().getAbsolutePath() +
