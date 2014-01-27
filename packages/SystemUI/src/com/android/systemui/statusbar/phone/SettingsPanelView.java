@@ -47,7 +47,7 @@ import com.android.systemui.statusbar.policy.RotationLockController;
 import java.io.File;
 
 public class SettingsPanelView extends PanelView {
-    public static final boolean DEBUG_GESTURES = true;
+    public static final boolean DEBUG_GESTURES = false;
 
     private QuickSettingsController mQS;
     private QuickSettingsContainerView mQSContainer;
@@ -118,10 +118,10 @@ public class SettingsPanelView extends PanelView {
     public void fling(float vel, boolean always) {
         if (DEBUG_GESTURES) {
             GestureRecorder gr = ((PhoneStatusBarView) mBar).mBar.getGestureRecorder();
-            if (gr != null) {
+            if (gr != null ) {
                 gr.tag(
                     "fling " + ((vel > 0) ? "open" : "closed"),
-                    "settings,v=" + vel);
+                    "notifications,v=" + vel);
             }
         }
         super.fling(vel, always);
