@@ -20,6 +20,9 @@
   <java-symbol type="anim" name="recent_screen_enter" />
   <java-symbol type="anim" name="recent_screen_enter_left" />
   <java-symbol type="anim" name="recent_screen_fade_out" />
+
+  <!-- UI theme mode -->
+  <java-symbol type="integer" name="config_uiThemeMode" />
   
   <!--  Animations -->
   <java-symbol type="string" name="action_null"/>
