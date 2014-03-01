@@ -70,6 +70,7 @@
   <java-symbol type="anim" name="slide_out_left_no_fade" />
   <java-symbol type="anim" name="slide_in_left_no_fade" />
   <java-symbol type="anim" name="slide_out_right_no_fade" />
+  <java-symbol type="array" name="anim_controls_entries" />
 
   <!-- Toast Animation -->
   <java-symbol type="style" name="Animation.Toast.Fade" />
