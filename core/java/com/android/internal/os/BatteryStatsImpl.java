@@ -5321,7 +5321,6 @@ public final class BatteryStatsImpl extends BatteryStats {
             if (next == null) {
                 return;
             }
-
             mWriteLock.lock();
         }
 
