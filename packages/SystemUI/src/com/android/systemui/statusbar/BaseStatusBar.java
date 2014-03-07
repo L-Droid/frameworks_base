@@ -99,7 +99,7 @@ import com.android.internal.util.slim.ButtonConfig;
 import com.android.internal.util.slim.DeviceUtils;
 import com.android.internal.widget.SizeAdaptiveLayout;
 import com.android.systemui.R;
-//import com.android.systemui.RecentsComponent;
+import com.android.systemui.RecentsComponent;
 import com.android.systemui.SearchPanelView;
 import com.android.systemui.SystemUI;
 import com.android.systemui.cm.SpamMessageProvider;
@@ -189,6 +189,10 @@ public abstract class BaseStatusBar extends SystemUI implements
 
     protected int mCurrentUserId = 0;
 
+    // Recents toggle controller
+    private RecentController slimRecents;
+    private RecentsComponent stockRecents;
+
     protected int mLayoutDirection = -1; // invalid
     private Locale mLocale;
     private int mHeadsUpSnoozeTime = DEFAULT_TIME_HEADS_UP_SNOOZE;
@@ -272,11 +276,11 @@ public abstract class BaseStatusBar extends SystemUI implements
     private boolean mDeviceProvisioned = false;
     private int mAutoCollapseBehaviour;
 
-    private RecentController mRecents;
-
     protected AppCircleSidebar mAppCircleSidebar;
 
     protected ActiveDisplayView mActiveDisplayView;
+
+    private boolean mCustomRecent = false;
 
     public INotificationManager getNotificationManager() {
         return mNotificationManager;
@@ -410,7 +414,14 @@ public abstract class BaseStatusBar extends SystemUI implements
         mBarService = IStatusBarService.Stub.asInterface(
                 ServiceManager.getService(Context.STATUS_BAR_SERVICE));
 
-        mRecents = new RecentController(mContext);
+        mCustomRecent = Settings.System.getBoolean(
+                        mContext.getContentResolver(), Settings.System.CUSTOM_RECENT_TOGGLE, false);
+
+        if (mCustomRecent) {
+            slimRecents = new RecentController(mContext);
+        } else {
+            stockRecents = getComponent(RecentsComponent.class);
+        }
 
         mLocale = mContext.getResources().getConfiguration().locale;
         mLayoutDirection = TextUtils.getLayoutDirectionFromLocale(mLocale);
@@ -954,32 +965,59 @@ public abstract class BaseStatusBar extends SystemUI implements
     };
 
     protected void toggleRecentsActivity() {
-        if (mRecents != null) {
-            mRecents.toggleRecents(mDisplay, mLayoutDirection, getStatusBarView());
+        if (stockRecents != null || slimRecents != null) {
+            mCustomRecent = Settings.System.getBoolean(mContext.getContentResolver(),
+                    Settings.System.CUSTOM_RECENT_TOGGLE, false);
+            if (mCustomRecent) {
+                slimRecents.toggleRecents(mDisplay, mLayoutDirection, getStatusBarView());
+            } else {
+                stockRecents.toggleRecents(mDisplay, mLayoutDirection, getStatusBarView(),
+                        mExpandedDesktopStyle);
+            }
         }
     }
 
     protected void preloadRecentTasksList() {
-        if (mRecents != null) {
-            mRecents.preloadRecentTasksList();
+        if (stockRecents != null || slimRecents != null) {
+            mCustomRecent = Settings.System.getBoolean(mContext.getContentResolver(),
+                    Settings.System.CUSTOM_RECENT_TOGGLE, false);
+            if (mCustomRecent) {
+                slimRecents.preloadRecentTasksList();
+            } else {
+                stockRecents.preloadRecentTasksList();
+            }
         }
     }
 
     protected void cancelPreloadingRecentTasksList() {
-        if (mRecents != null) {
-            mRecents.cancelPreloadingRecentTasksList();
+        if (stockRecents != null || slimRecents != null) {
+            mCustomRecent = Settings.System.getBoolean(mContext.getContentResolver(),
+                    Settings.System.CUSTOM_RECENT_TOGGLE, false);
+            if (mCustomRecent) {
+                slimRecents.cancelPreloadingRecentTasksList();
+            } else {
+                stockRecents.cancelPreloadingRecentTasksList();
+            }
         }
     }
 
     protected void closeRecents() {
-        if (mRecents != null) {
-            mRecents.closeRecents();
+        if (stockRecents != null || slimRecents != null) {
+            mCustomRecent = Settings.System.getBoolean(mContext.getContentResolver(),
+                    Settings.System.CUSTOM_RECENT_TOGGLE, false);
+            if (mCustomRecent) {
+                slimRecents.closeRecents();
+            } else {
+                stockRecents.closeRecents();
+            }
         }
     }
 
     protected void rebuildRecentsScreen() {
-        if (mRecents != null) {
-            mRecents.rebuildRecentsScreen();
+        mCustomRecent = Settings.System.getBoolean(mContext.getContentResolver(),
+                Settings.System.CUSTOM_RECENT_TOGGLE, false);
+        if (slimRecents != null && mCustomRecent) {
+                slimRecents.rebuildRecentsScreen();
         }
     }
 
