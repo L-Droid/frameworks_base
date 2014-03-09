@@ -30,12 +30,12 @@ public class SettingsActivity extends Activity {
 
     public static boolean getDisplayAdvancedDevices(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean(KEY_ADVANCED_DEVICES, false);
+                .getBoolean(KEY_ADVANCED_DEVICES, true);
     }
 
     public static boolean getDisplayFileSize(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean(KEY_FILE_SIZE, false);
+                .getBoolean(KEY_FILE_SIZE, true);
     }
 
     @Override
