@@ -47,6 +47,7 @@ import static com.android.internal.util.cm.QSConstants.TILE_WIFI;
 import static com.android.internal.util.cm.QSConstants.TILE_WIFIAP;
 import static com.android.internal.util.cm.QSConstants.TILE_WIMAX;
 import static com.android.internal.util.cm.QSConstants.TILE_POWER;
+import static com.android.internal.util.cm.QSConstants.TILE_ONTHEGO;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -100,13 +101,14 @@ import com.android.systemui.quicksettings.RemoteDisplayTile;
 import com.android.systemui.quicksettings.WiFiTile;
 import com.android.systemui.quicksettings.WifiAPTile;
 import com.android.systemui.quicksettings.PowerMenuTile; 
+import com.android.systemui.quicksettings.OnTheGoTile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 public class QuickSettingsController {
-    private static String TAG = "QuickSettingsController";
+    private static final String TAG = "QuickSettingsController";
 
     // Stores the broadcast receivers and content observers
     // quick tiles register for.
@@ -296,6 +298,8 @@ public class QuickSettingsController {
                 }
 	    } else if (tile.equals(TILE_POWER)) {
                 qs = new PowerMenuTile(mContext, this);     
+            } else if (tile.equals(TILE_ONTHEGO)) {
+                qs = new OnTheGoTile(mContext, this);     
             }
 
             if (qs != null) {
@@ -469,7 +473,7 @@ public class QuickSettingsController {
                 }
             }
         }
-    };
+    }
 
     void setBar(PanelBar bar) {
         mBar = bar;
