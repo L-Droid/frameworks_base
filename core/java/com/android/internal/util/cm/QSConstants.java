@@ -40,7 +40,7 @@ public class QSConstants {
         public static final String TILE_SCREENSHOT = "toggleScreenshot";
         public static final String TILE_SHAKE = "tileShake";
         public static final String TILE_COMPASS = "toggleCompass";
-
+        public static final String TILE_ONTHEGO = "toggleOnTheGo";
         public static final String TILE_DELIMITER = "|";
         public static ArrayList<String> TILES_DEFAULT = new ArrayList<String>();
 

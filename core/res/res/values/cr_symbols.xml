@@ -244,4 +244,7 @@
   <java-symbol type="style" name="Theme.DeviceDefault.FloatingWindow" />
   <java-symbol type="style" name="Theme.DeviceDefault.FloatingWindowLight" />
 
+  <!-- On-The-Go -->
+  <java-symbol type="drawable" name="ic_lock_onthego" />
+
 </resources>

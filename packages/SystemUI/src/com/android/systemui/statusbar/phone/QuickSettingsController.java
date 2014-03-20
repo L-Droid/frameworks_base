@@ -35,6 +35,7 @@ import static com.android.internal.util.cm.QSConstants.TILE_MUSIC;
 import static com.android.internal.util.cm.QSConstants.TILE_NETWORKADB;
 import static com.android.internal.util.cm.QSConstants.TILE_NETWORKMODE;
 import static com.android.internal.util.cm.QSConstants.TILE_NFC;
+import static com.android.internal.util.cm.QSConstants.TILE_ONTHEGO;
 import static com.android.internal.util.cm.QSConstants.TILE_PROFILE;
 import static com.android.internal.util.cm.QSConstants.TILE_POWERMENU;
 import static com.android.internal.util.cm.QSConstants.TILE_PERFORMANCE_PROFILE;
@@ -116,7 +117,7 @@ import com.android.systemui.quicksettings.RemoteDisplayTile;
 import com.android.systemui.quicksettings.WiFiTile;
 import com.android.systemui.quicksettings.WifiAPTile;
 import com.android.systemui.quicksettings.ThemeTile;
-
+import com.android.systemui.quicksettings.OnTheGoTile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -124,7 +125,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class QuickSettingsController {
-    private static String TAG = "QuickSettingsController";
+    private static final String TAG = "QuickSettingsController";
 
     // Stores the broadcast receivers and content observers
     // quick tiles register for.
@@ -322,6 +323,8 @@ public class QuickSettingsController {
                 }
             } else if (tile.equals(TILE_COMPASS)) {
                 qs = new CompassTile(mContext, this);
+            } else if (tile.contains(TILE_ONTHEGO)) {
+                qs = new OnTheGoTile(mContext, this);
             }
 
             if (qs != null) {
