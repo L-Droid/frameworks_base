@@ -104,11 +104,9 @@ public class SignalClusterView
         apply();
        
         mStatusBar.addIcon(mWifi);
- 		mStatusBar.addIcon(mMobile);
- 		mStatusBar.addIcon(mWifiActivity);
- 		mStatusBar.addIcon(mMobileActivity); 
- 		mStatusBar.addIcon(mMobileType); 
- 		mStatusBar.addIcon(mAirplane);
+		mStatusBar.addIcon(mMobile);
+		mStatusBar.addIcon(mMobileType); 
+		mStatusBar.addIcon(mAirplane);
     }
 
     @Override
