@@ -1246,6 +1246,9 @@ public class Activity extends ContextThemeWrapper
         setupFloatingActionBar(true);
         getApplication().dispatchActivityResumed(this);
         mCalled = true;
+        Intent intent = new Intent("tb.newactivity");
+        intent.putExtra("packagename",getPackageName());
+        sendBroadcast(intent);
     }
 
     /**
