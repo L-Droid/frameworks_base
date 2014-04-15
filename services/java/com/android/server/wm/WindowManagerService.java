@@ -11215,4 +11215,10 @@ public class WindowManagerService extends IWindowManager.Stub
             return new Rect(0, 0, (int)(appWidth * 0.9f) , (int)(appHeight * 0.7f));
         }
     }
+
+    /* @hide */
+    @Override
+    public int getSystemUIVisibility() {
+        return mLastStatusBarVisibility;
+    }
 }

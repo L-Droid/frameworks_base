@@ -507,7 +507,6 @@ public class IWindowManagerImpl implements IWindowManager {
     /* @hide */
     @Override
     public void showCustomIntentOnKeyguard(Intent intent) {
-
     }
 
     /* @hide */
@@ -518,5 +517,11 @@ public class IWindowManagerImpl implements IWindowManager {
     /* @hide */
     @Override
     public void toggleStatusBar() {
+    }
+
+    /* @hide */
+    @Override
+    public int getSystemUIVisibility() {
+        return 0;
     }
 }
