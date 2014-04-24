@@ -61,7 +61,6 @@ public class QuickSettingsTile implements OnClickListener {
         container.updateResources();
         mTileTextSize = container.getTileTextSize();
         mTileTextPadding = container.getTileTextPadding();
-
         mTile = (QuickSettingsTileView) inflater.inflate(
                 R.layout.quick_settings_tile, container, false);
         mTile.setContent(mTileLayout, inflater);
@@ -106,7 +105,7 @@ public class QuickSettingsTile implements OnClickListener {
         TextView tv = (TextView) mTile.findViewById(R.id.text);
         if (tv != null) {
             tv.setText(mLabel);
-            tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTileTextSize);
+            tv.setTextSize(mTileTextSize);
             tv.setPadding(0, mTileTextPadding, 0, 0);
         }
         View image = mTile.findViewById(R.id.image);
