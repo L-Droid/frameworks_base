@@ -423,6 +423,11 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
         }
     }
 
+    public int getTasks() {
+         return mRecentTaskDescriptions != null ? mRecentTaskDescriptions.size()
+                 : 0;
+     }
+ 
     public void onUiHidden() {
         mCallUiHiddenBeforeNextReload = false;
         if (!mShowing && mRecentTaskDescriptions != null) {
