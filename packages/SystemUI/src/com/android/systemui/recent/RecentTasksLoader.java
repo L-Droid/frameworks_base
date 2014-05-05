@@ -399,6 +399,45 @@ public class RecentTasksLoader implements View.OnTouchListener {
         return null;
     }
 
+    public TaskDescription findFirstTask() {
+        final ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+
+        final List<ActivityManager.RecentTaskInfo> recentTasks = am.getRecentTasksForUser(
+                MAX_TASKS, ActivityManager.RECENT_IGNORE_UNAVAILABLE, UserHandle.CURRENT.getIdentifier());
+        TaskDescription item = null;
+        int i = -1;
+        for (ActivityManager.RecentTaskInfo recentInfo : recentTasks) {
+            i++;
+            Intent intent = new Intent(recentInfo.baseIntent);
+            if (recentInfo.origActivity != null) {
+                intent.setComponent(recentInfo.origActivity);
+            }
+
+            // Don't load the current home activity
+            if (isCurrentHomeActivity(intent.getComponent(), null)) {
+                continue;
+            }
+
+            // Don't load ourselves
+            if (intent.getComponent().getPackageName().equals(mContext.getPackageName())) {
+                continue;
+            }
+
+            item = createTaskDescription(recentInfo.id,
+                    recentInfo.persistentId, recentInfo.baseIntent,
+                    recentInfo.origActivity, recentInfo.description);
+            if (item != null) {
+                loadThumbnailAndIcon(item);
+            }
+            // don't load the first activity
+            if (i == 0) {
+                continue;
+            }
+            return item;
+        }
+        return null;
+    }
+
     public void loadTasksInBackground() {
         loadTasksInBackground(false);
     }
