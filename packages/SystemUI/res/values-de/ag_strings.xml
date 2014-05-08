@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+     <!-- Switch apps -->
+    <string name="enable_switch_apps_title">Apps wechseln</string>
+    <string name="enable_switch_apps_message">Beim gedrückt Halten des Verlaufs schnell zur vorherigen App wechseln?</string>
+    <string name="recents_switch">@string/enable_switch_apps_title</string>
+
+</resources>
