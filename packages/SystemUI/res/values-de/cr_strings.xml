@@ -61,4 +61,9 @@
     <string name="quick_settings_onthego_back">Hintere Kamera</string>
     <string name="quick_settings_onthego_front">Vordere Kamera</string>
 
+    <!-- Title shown in notification popup for launching notification in floating mode -->
+    <string name="status_bar_notification_floating_item_title">Floating-Modus</string>
+    <!-- Title shown in recents popup for showing app in floating mode -->
+    <string name="status_bar_recent_floating_item_title">Floating-Modus</string>
+    
 </resources>
