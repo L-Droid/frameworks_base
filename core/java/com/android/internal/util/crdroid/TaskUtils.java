@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.internal.util.cm;
+package com.android.internal.util.crdroid;
 
 import android.content.Context;
 import android.content.Intent;
@@ -33,7 +33,7 @@ import java.util.List;
 
 public class TaskUtils {
 
-    public static void toggleLastApp(final Context context){
+    public static void toggleLastAppImpl(final Context context){
         final Intent intent = new Intent(Intent.ACTION_MAIN);
         final ActivityManager am = (ActivityManager) context
                 .getSystemService(Activity.ACTIVITY_SERVICE);

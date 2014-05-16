@@ -48,7 +48,7 @@ import android.widget.Toast;
 
 import com.android.internal.statusbar.IStatusBarService;
 import com.android.internal.util.cm.TorchConstants;
-import com.android.internal.util.cm.TaskUtils;
+import com.android.internal.util.crdroid.TaskUtils;
 import static com.android.internal.util.cm.NavigationRingConstants.*;
 import com.android.systemui.R;
 import com.android.systemui.screenshot.TakeScreenshotService;
@@ -137,7 +137,7 @@ public class ActionTarget {
             mHandler.post(mKillRunnable);
             return true;
         } else if (action.equals(ACTION_LAST_APP)) {
-            TaskUtils.toggleLastApp(mContext);
+            TaskUtils.toggleLastAppImpl(mContext);
             return true;
         } else if (action.equals(ACTION_VIBRATE)) {
             if (mAm.getRingerMode() != AudioManager.RINGER_MODE_VIBRATE) {
