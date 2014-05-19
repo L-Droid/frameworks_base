@@ -3826,6 +3826,14 @@ public final class Settings {
         public static final String CUSTOM_RECENT_TOGGLE = "custom_recent_toggle";
 
         /**
+          * Always turn on screen after call ignoring proximity?
+          * 0 = no
+          * 1 = yes
+          * @hide
+          */
+         public static final String INACCURATE_PROXIMITY_WORKAROUND = "inaccurate_proximity_sensor";
+
+        /**
          * Sets the lockscreen background style. Integer.
          * @see LockscreenBackgroundUtil#LOCKSCREEN_STYLE_DEFAULT
          * @see LockscreenBackgroundUtil#LOCKSCREEN_STYLE_IMAGE
