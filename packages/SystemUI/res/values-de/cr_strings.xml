@@ -62,12 +62,31 @@
     <string name="quick_settings_onthego_front">Vordere Kamera</string>
 
     <!-- Title shown in notification popup for launching notification in floating mode -->
-    <string name="status_bar_notification_floating_item_title">Floating-Modus</string>
+    <string name="status_bar_notification_floating_item_title">Schwebe-Fenster-Modus</string>
     <!-- Title shown in recents popup for showing app in floating mode -->
-    <string name="status_bar_recent_floating_item_title">Floating-Modus</string>
+    <string name="status_bar_recent_floating_item_title">Schwebe-Fenster-Modus</string>
     
     <!-- TRDS -->
-    <string name="quick_settings_theme_switch_dark">Dunkles UI</string>
-    <string name="quick_settings_theme_switch_light">Helles UI</string>
+    <string name="quick_settings_theme_switch_dark">Dunkle Benutzeroberfläche aktiviert!</string>
+    <string name="quick_settings_theme_switch_light">Helle Benutzeroberfläche aktiviert!</string>
     
+    <!-- Switch apps -->
+    <string name="enable_switch_apps_title">Appwechsel</string>
+    <string name="enable_switch_apps_message">Anwendungsverlauf gedrückt halten, um die letzte App schnell zu maximieren?</string>
+    <string name="recents_switch">@string/enable_switch_apps_title</string>
+ 
+    <!-- App circle sidebar -->
+    <string name="app_float_maximize_item_title">Maximieren</string>
+    <string name="app_float_item_title">Schwebe-Ansicht</string>
+    <string name="app_stop_item_title">Anwendung beenden</string>
+
+    <!-- App sidebar -->
+    <string name="default_folder_text">Ordner</string>
+    <string name="title_activity_sidebar_configuration">Apps hinzufügen:</string>
+    <string name="action_save">Speichern</string>
+    <string name="toast_items_saved">Inhalt der Appleiste gespeichert!</string>
+    <string name="content_setup_instructions">Halte den Finger auf einer Anwendung und ziehe sie in die Leiste.\n\nZiehe mehrere Apps aufeinander, um Ordner zu erstellen.\n\nZum Entfernen einer App aus der Leiste, ziehe sie einfach wieder heraus!</string>
+    <string name="content_setup_dismiss">Weiter</string>
+    <string name="toast_not_installed">Anwendung nicht installiert!</string>
+
 </resources>
