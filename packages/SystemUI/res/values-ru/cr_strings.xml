@@ -14,10 +14,6 @@
 
     <string name="status_bar_notification_hide_icon_packages">Скрыть иконку(и) уведомления у приложения(ий)</string>
 
-    <!-- TRDS -->
-    <string name="quick_settings_theme_switch_dark">Тёмная тема</string>
-    <string name="quick_settings_theme_switch_light">Светлая тема</string>
-
     <!-- Dialog Cancel/OK -->
     <string name="cancel">Отмена</string>
     <string name="dlg_ok">Ok</string>
@@ -65,6 +61,10 @@
     <string name="status_bar_notification_floating_item_title">Плавающий режим</string>
     <!-- Title shown in recents popup for showing app in floating mode -->
     <string name="status_bar_recent_floating_item_title">Плавающий режим</string>
+	
+    <!-- TRDS -->
+    <string name="quick_settings_theme_switch_dark">Тёмная тема</string>
+    <string name="quick_settings_theme_switch_light">Светлая тема</string>
 
     <!-- Switch apps -->
     <string name="enable_switch_apps_title">Переключение приложений</string>
@@ -75,5 +75,14 @@
     <string name="app_float_maximize_item_title">На весь экран</string>
     <string name="app_float_item_title">Вид в окне</string>
     <string name="app_stop_item_title">Закрыть</string>
+
+    <!-- App sidebar -->
+    <string name="default_folder_text">Папка</string>
+    <string name="title_activity_sidebar_configuration">Настройка содержания бара</string>
+    <string name="action_save">Сохранить</string>
+    <string name="toast_items_saved">Элементы бара приложений были сохранены</string>
+    <string name="content_setup_instructions">Для добавления элемента в бар приложений нажмите и удерживайте любой значек справа и перетащите его на панель.\n\nДля объединения элементов в папки переместите значек справа на любой элемент в баре приложений.\n\nДля удаления элемента просто перетащите его за пределы бара приложений.</string>
+    <string name="content_setup_dismiss">Продолжить</string>
+    <string name="toast_not_installed">Приложение не установлено</string>
 
 </resources>
