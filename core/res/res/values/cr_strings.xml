@@ -45,4 +45,11 @@
    <string name="floating_window_snap_right">Snap right</string>
    <string name="floating_window_minimize">Minimize</string>
 
+  <!-- label for nav bar item in phone options dialog -->
+  <string name="global_actions_nav_bar_mode">Navigation bar</string>
+  <!-- status message in phone options dialog for when navigation bar is on -->
+  <string name="global_actions_nav_bar_mode_on_status">Navigation bar is ON</string>
+  <!-- status message in phone options dialog for when navigation bar is off -->
+  <string name="global_actions_nav_bar_mode_off_status">Navigation bar is OFF</string>
+
 </resources>
