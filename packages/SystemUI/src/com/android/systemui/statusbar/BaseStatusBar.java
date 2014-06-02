@@ -31,7 +31,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.IPackageDataObserver;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Resources;
 import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.graphics.Rect;
@@ -55,7 +54,6 @@ import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Slog;
-import android.util.SettingConfirmationHelper;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.IWindowManager;
@@ -79,11 +77,8 @@ import com.android.internal.statusbar.StatusBarIcon;
 import com.android.internal.statusbar.StatusBarIconList;
 import com.android.internal.widget.SizeAdaptiveLayout;
 import com.android.systemui.R;
-import com.android.systemui.recent.RecentsActivity;
 import com.android.systemui.RecentsComponent;
 import com.android.systemui.SearchPanelView;
-import com.android.systemui.recent.RecentTasksLoader;
-import com.android.systemui.recent.TaskDescription;
 import com.android.systemui.SystemUI;
 import com.android.systemui.slimrecent.RecentController;
 import com.android.systemui.statusbar.notification.NotificationHelper;
@@ -92,6 +87,7 @@ import com.android.systemui.statusbar.phone.Ticker;
 import com.android.systemui.statusbar.phone.KeyguardTouchDelegate;
 import com.android.systemui.statusbar.phone.PhoneStatusBar;
 import com.android.systemui.statusbar.policy.NotificationRowLayout;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -110,7 +106,6 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected static final int MSG_SHOW_HEADS_UP = 1026;
     protected static final int MSG_HIDE_HEADS_UP = 1027;
     protected static final int MSG_ESCALATE_HEADS_UP = 1028;
-    protected static final int MSG_CLEAR_RECENTS_PANEL = 1029;
 
     protected static final boolean ENABLE_HEADS_UP = true;
     // scores above this threshold should be displayed in heads up mode.
@@ -718,50 +713,6 @@ public abstract class BaseStatusBar extends SystemUI implements
 
     protected abstract View getStatusBarView();
 
-    protected boolean mSwitchingApp = false;
-    private RecentTasksLoader mRecentTasksLoader;
-    protected int mSwitchLastAppHoldoff = 200;
-    private Runnable mSwitchLastApp = new Runnable() {
-        public void run() {
-            int selection = Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.RECENTS_SWITCH, 0);
-            if (selection == 0 || selection == 3) {
-                selectSwitchApps();
-            } else {
-                boolean switchApps = selection == 1;
-                if (!switchApps) {
-                    toggleRecentsActivity();
-                } else {
-                    mSwitchingApp = true;
-                    if (mRecentTasksLoader == null) {
-                        mRecentTasksLoader = RecentTasksLoader.getInstance(mContext);
-                    }
-                    TaskDescription task = mRecentTasksLoader.getFirstTask(true);
-                    if (task != null) {
-                        Intent intent = task.getIntent();
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        mContext.startActivity(intent);
-                    } else {
-                        toggleRecentsActivity();
-                    }
-                }
-            }
-        }
-    };
-
-    private void selectSwitchApps() {
-        Resources r = mContext.getResources();
-
-        SettingConfirmationHelper.showConfirmationDialogForSetting(
-                mContext,
-                r.getString(R.string.enable_switch_apps_title),
-                r.getString(R.string.enable_switch_apps_message),
-                r.getDrawable(R.drawable.switch_apps),
-                Settings.System.RECENTS_SWITCH,
-                null);
-    }
-
-
     protected View.OnTouchListener mRecentsPreloadOnTouchListener = new View.OnTouchListener() {
         // additional optimization when we have software system buttons - start loading the recent
         // tasks on touch down
@@ -770,30 +721,18 @@ public abstract class BaseStatusBar extends SystemUI implements
             int action = event.getAction() & MotionEvent.ACTION_MASK;
             if (action == MotionEvent.ACTION_DOWN) {
                 preloadRecentTasksList();
-                mSwitchingApp = false;
-                ContentResolver resolver = mContext.getContentResolver();
-                if (!isRecentAppsVisible()) {
-                    mHandler.removeCallbacks(mSwitchLastApp);
-                    mHandler.postDelayed(mSwitchLastApp, mSwitchLastAppHoldoff);
-                }
             } else if (action == MotionEvent.ACTION_CANCEL) {
                 cancelPreloadingRecentTasksList();
-                mHandler.removeCallbacks(mSwitchLastApp);
             } else if (action == MotionEvent.ACTION_UP) {
-                if (!v.isPressed() || mSwitchingApp) {
+                if (!v.isPressed()) {
                     cancelPreloadingRecentTasksList();
                 }
-                mHandler.removeCallbacks(mSwitchLastApp);
 
             }
             return false;
         }
     };
 
-    protected boolean isRecentAppsVisible() {
-        return RecentsActivity.isActivityShowing();
-    }
-    
     protected void toggleRecentsActivity() {
         if (stockRecents != null || slimRecents != null) {
             mCustomRecent = Settings.System.getBoolean(mContext.getContentResolver(),
@@ -862,7 +801,7 @@ public abstract class BaseStatusBar extends SystemUI implements
                  break;
              case MSG_CLOSE_RECENTS_PANEL:
                  closeRecents();
-                 break;            
+                 break;
              case MSG_PRELOAD_RECENT_APPS:
                   preloadRecentTasksList();
                   break;

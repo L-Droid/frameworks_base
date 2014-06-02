@@ -44,9 +44,9 @@ public class RecentsActivity extends Activity {
     public static final String WAITING_FOR_WINDOW_ANIMATION_PARAM = "com.android.systemui.recent.WAITING_FOR_WINDOW_ANIMATION";
     private static final String WAS_SHOWING = "was_showing";
 
-    private static RecentsPanelView mRecentsPanel;
+    private RecentsPanelView mRecentsPanel;
     private IntentFilter mIntentFilter;
-    private static boolean mShowing;
+    private boolean mShowing;
     private boolean mForeground;
     protected boolean mBackPressed;
 
@@ -249,11 +249,7 @@ public class RecentsActivity extends Activity {
         return mForeground;
     }
 
-    public static int getTasks() {
-        return mRecentsPanel.getTasks();
-    }
-
-    public static boolean isActivityShowing() {
-        return mShowing;
+    boolean isActivityShowing() {
+         return mShowing;
     }
 }

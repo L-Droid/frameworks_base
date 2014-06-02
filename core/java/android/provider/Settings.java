@@ -3326,13 +3326,6 @@ public final class Settings {
                 "status_bar_battery_show_percent";
 
         /**
-         * Navbar recents clear all option
-         * @hide
-         */
-        public static final String NAVBAR_RECENTS_CLEAR_ALL = "navbar_recents_clear_all";
-
-
-        /**
  	*
 	* SMOOTH PROGRESS BAR Mirror
 	* @hide
@@ -4241,15 +4234,6 @@ public final class Settings {
         public static final String LOCKSCREEN_MAXIMIZE_WIDGETS = "lockscreen_maximize_widgets";
 
         /**
-          * Recents longpress switchs apps.
-          * 0 = off
-          * 1 = on
-          * @hide
-          */
-         public static final String RECENTS_SWITCH = "recents_switch";
- 
-
-        /**
          * Show when WiFi or data mobile is sending/receiving data
          * @hide
          */
@@ -4648,15 +4632,6 @@ public final class Settings {
             TELO_RADIO_LTE,
             TELO_RADIO_2G_SCREENOFF,
             TELO_RADIO_GO3G_UNLOCK,
-        };
-
-        /**
-         * Settings to reset on user choice. They will fall back to their default value (0).
-         *
-         * @hide
-         */
-        public static final String[] SETTINGS_TO_RESET = {
-            RECENTS_SWITCH
         };
 
         // Settings moved to Settings.Secure
