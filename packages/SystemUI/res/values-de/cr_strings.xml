@@ -89,4 +89,31 @@
     <string name="content_setup_dismiss">Weiter</string>
     <string name="toast_not_installed">Anwendung nicht installiert!</string>
 
+    <!-- Long-press back kill application -->
+    <string name="app_killed_message">App beendet</string>
+
+    <!-- Quick Settings -->
+    <string name="quick_settings_music_play">Start</string>
+    <string name="quick_settings_music_pause">Pause</string>
+    <string name="quick_settings_music_schedule_title">Schlaf-Timer</string>
+    <string name="quick_settings_music_schedule_in_progress">Timer läuft</string>
+    <string name="quick_settings_music_schedule_start">Timer starten</string>
+    <string name="quick_settings_music_schedule_cancel">Timer löschen</string>
+    <string name="quick_settings_music_schedule_update">Timer aktualisieren</string>
+    <string name="quick_settings_quick_record_nofile">Lange drücken</string>
+    <string name="quick_settings_quick_record_def">Schnellaufnahme</string>
+    <string name="quick_settings_quick_record_rec">Aufnahme läuft...</string>
+    <string name="quick_settings_quick_record_save">Gespeichert</string>
+    <string name="quick_settings_quick_record_play">Wiedergabe...</string>
+
+    <!-- Battery status in pie controls -->
+    <string name="pie_battery_status_charging">Lädt - (<xliff:g id="percent">%d</xliff:g>%%)</string>
+    <string name="pie_battery_status_full">Geladen</string>
+    <string name="pie_battery_status_discharging"><xliff:g id="percent">%d</xliff:g>%% verbleiben</string>
+
+    <!-- Phone status in pie controls -->
+    <string name="pie_phone_status_no_service">Kein Dienst</string>
+    <string name="pie_phone_status_airplane_mode">Flugzeugmodus</string>
+    <string name="pie_phone_status_emergency_only">Nur Notrufe</string>
+
 </resources>
