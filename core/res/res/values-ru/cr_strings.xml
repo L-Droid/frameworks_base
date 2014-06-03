@@ -45,4 +45,13 @@
    <string name="floating_window_snap_right">Привязка справа</string>
    <string name="floating_window_minimize">Свернуть</string>
 
+  <!-- label for nav bar item in phone options dialog -->
+  <string name="global_actions_nav_bar_mode">Строка навигации</string>
+  <!-- status message in phone options dialog for when navigation bar is on -->
+  <string name="global_actions_nav_bar_mode_on_status">Строка навигации включена</string>
+  <!-- status message in phone options dialog for when navigation bar is off -->
+  <string name="global_actions_nav_bar_mode_off_status">Строка навигации выключена</string>
+  <!-- Error message if user want to try to disable all navigation options -->
+  <string name="disable_navigation_pie_error">Вы не можете отключить строку навигации. Ни один из режимов навигации не включен. Сначала включите панель PIE, чтобы отключить строку навигации.</string>
+
 </resources>

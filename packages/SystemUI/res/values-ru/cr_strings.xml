@@ -85,4 +85,31 @@
     <string name="content_setup_dismiss">Продолжить</string>
     <string name="toast_not_installed">Приложение не установлено</string>
 
+    <!-- Long-press back kill application -->
+    <string name="app_killed_message">Приложение закрыто</string>
+
+    <!-- Quick Settings -->
+    <string name="quick_settings_music_play">Играть</string>
+    <string name="quick_settings_music_pause">Пауза</string>
+    <string name="quick_settings_music_schedule_title">Таймер отключения</string>
+    <string name="quick_settings_music_schedule_in_progress">Таймер работает</string>
+    <string name="quick_settings_music_schedule_start">Запустить таймер</string>
+    <string name="quick_settings_music_schedule_cancel">Очистить таймер</string>
+    <string name="quick_settings_music_schedule_update">Обновить таймер</string>
+    <string name="quick_settings_quick_record_nofile">Долгое нажатие</string>
+    <string name="quick_settings_quick_record_def">Быстрая запись</string>
+    <string name="quick_settings_quick_record_rec">Записывание...</string>
+    <string name="quick_settings_quick_record_save">Сохранено</string>
+    <string name="quick_settings_quick_record_play">Воспроизведение...</string>
+
+    <!-- Battery status in pie controls -->
+    <string name="pie_battery_status_charging">Идет зарядка (<xliff:g id="percent">%d</xliff:g>%%)</string>
+    <string name="pie_battery_status_full">Заряжено</string>
+    <string name="pie_battery_status_discharging"><xliff:g id="percent">%d</xliff:g>%% осталось</string>
+
+    <!-- Phone status in pie controls -->
+    <string name="pie_phone_status_no_service">Нет сети</string>
+    <string name="pie_phone_status_airplane_mode">Режим \"В самолете\" включен</string>
+    <string name="pie_phone_status_emergency_only">Только экстренные вызовы</string>
+
 </resources>
