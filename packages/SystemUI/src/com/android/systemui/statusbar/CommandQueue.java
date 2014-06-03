@@ -112,7 +112,6 @@ public class CommandQueue extends IStatusBar.Stub {
         public void toggleScreenshot();
         public void toggleLastApp();
         public void toggleKillApp();
-        public void setButtonDrawable(int buttonId, int iconId);
     }
 
     public CommandQueue(Callbacks callbacks, StatusBarIconList list) {

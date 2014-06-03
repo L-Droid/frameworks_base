@@ -517,6 +517,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                         }
                     }
             );
+        }
 
         // next: Nav Bar toggle
         boolean showNavBar = Settings.System.getBoolean(cr,

@@ -120,7 +120,6 @@ import com.android.internal.util.gesture.EdgeGesturePosition;
 import com.android.internal.util.gesture.EdgeServiceConstants;
 import com.android.internal.util.slim.Converter;
 import com.android.internal.widget.PointerLocationView;
-import com.android.internal.util.crdroid.Converter;
 
 import java.io.File;
 import java.io.FileReader;
@@ -1079,7 +1078,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     performAuditoryFeedbackForAccessibilityIfNeed();
                 }
                 sendCloseSystemWindows(SYSTEM_DIALOG_REASON_GLOBAL_ACTIONS);
-                showGlobalActionsDialog();
+                showGlobalActionsDialog(true);
                 break;
             case LONG_PRESS_POWER_SHUT_OFF:
             case LONG_PRESS_POWER_SHUT_OFF_NO_CONFIRM:
@@ -1157,7 +1156,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
         final boolean keyguardLocked = getKeyguardManager().isKeyguardLocked();
         mGlobalActions.showDialog(keyguardLocked, isDeviceProvisioned(), showRebootMenu); 
-        if (keyguardLocked) {
+        if (keyguardLocked && showRebootMenu) {
             // since it took two seconds of long press to bring this up,
             // poke the wake lock so they have some time to see the dialog.
             mPowerManager.userActivity(SystemClock.uptimeMillis(), false);
