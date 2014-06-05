@@ -3809,7 +3809,9 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
             }
         }
 
-        checkForRelayout();
+        if (mLayout != null && mLayoutParams != null) {
+            checkForRelayout();
+        }
 
         sendOnTextChanged(text, 0, oldlen, textLength);
         onTextChanged(text, 0, oldlen, textLength);
@@ -3901,7 +3903,9 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
     public final void setHint(CharSequence hint) {
         mHint = TextUtils.stringOrSpannedString(hint);
 
-        checkForRelayout();
+        if (mLayout != null && mLayoutParams != null) {
+            checkForRelayout();
+        }
 
         if (mText.length() == 0) {
             invalidate();
