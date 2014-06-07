@@ -707,7 +707,9 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
      * for ListView Animations
      */
     private boolean mIsWidget;
-    private boolean mIsScrolling;
+    private int mListAnimationMode = 0;
+    private int mListAnimationInterpolatorMode = 0;
+    private boolean mListAnimationModeSet = false;
     private int mWidth, mHeight = 0;
     private int mPositionV;
     private boolean mIsTap = false;
@@ -2338,22 +2340,13 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
     }
 
     private View setAnimation(View view) {
-        int listAnimationMode = Settings.System.getIntForUser(
-                mContext.getContentResolver(),
-                Settings.System.LISTVIEW_ANIMATION,
-                0, UserHandle.USER_CURRENT_OR_SELF);
-
-        if (listAnimationMode == 0 || view == null) {
+        if (view == null) {
             return view;
         }
 
         int scrollY = 0;
         boolean down = false;
         Animation anim = null;
-        int listAnimationInterpolatorMode = Settings.System.getIntForUser(
-                mContext.getContentResolver(),
-                Settings.System.LISTVIEW_INTERPOLATOR,
-                0, UserHandle.USER_CURRENT_OR_SELF);
 
         try {
             scrollY = getChildAt(0).getTop();
@@ -2367,7 +2360,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
 
         mPositionV = scrollY;
 
-        switch (listAnimationMode) {
+        switch (mListAnimationMode) {
             case 1:
                 anim = new ScaleAnimation(0.5f, 1.0f, 0.5f, 1.0f);
                 break;
@@ -2410,11 +2403,13 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
             case 10:
                 anim = new TranslateAnimation(mWidth, 0.0f, 0.0f, 0.0f);
                 break;
-            default:
-                return view;
         }
 
-        switch (listAnimationInterpolatorMode) {
+        if (mListAnimationInterpolatorMode == 0) {
+            return applyAnimationToView(view, anim);
+        }
+
+        switch (mListAnimationInterpolatorMode) {
             case 1:
                 anim.setInterpolator(AnimationUtils.loadInterpolator(
                     mContext, android.R.anim.accelerate_interpolator));
@@ -2443,8 +2438,13 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
                 anim.setInterpolator(AnimationUtils.loadInterpolator(
                     mContext, android.R.anim.bounce_interpolator));
                 break;
-            default:
-                break;
+        }
+        return applyAnimationToView(view, anim);
+    }
+
+    private View applyAnimationToView(View view, Animation anim) {
+        if (anim == null) {
+            return view;
         }
         anim.setDuration(500);
         view.startAnimation(anim);
@@ -4136,7 +4136,6 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
 
         case MotionEvent.ACTION_CANCEL:
         case MotionEvent.ACTION_UP: {
-            mIsTap = false;
             mTouchMode = TOUCH_MODE_REST;
             mActivePointerId = INVALID_POINTER;
             recycleVelocityTracker();
@@ -4199,14 +4198,25 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
      * @param newState The new scroll state.
      */
     void reportScrollStateChange(int newState) {
-        if (newState == OnScrollListener.SCROLL_STATE_IDLE) {
-                mIsScrolling = false;
-            } else {
-                mIsScrolling = true;
-            }
         if (newState != mLastScrollState) {
+            mLastScrollState = newState;
+            if (newState == OnScrollListener.SCROLL_STATE_IDLE) {
+                mListAnimationModeSet = false;
+                mListAnimationMode = 0;
+            } else if (!mListAnimationModeSet) {
+                mListAnimationModeSet = true;
+                mListAnimationMode = Settings.System.getIntForUser(
+                        mContext.getContentResolver(),
+                        Settings.System.LISTVIEW_ANIMATION,
+                        0, UserHandle.USER_CURRENT_OR_SELF);
+                if (mListAnimationMode != 0) {
+                    mListAnimationInterpolatorMode = Settings.System.getIntForUser(
+                            mContext.getContentResolver(),
+                            Settings.System.LISTVIEW_INTERPOLATOR,
+                            0, UserHandle.USER_CURRENT_OR_SELF);
+                }
+            }
             if (mOnScrollListener != null) {
-                mLastScrollState = newState;
                 mOnScrollListener.onScrollStateChanged(this, newState);
             }
         }
@@ -4348,8 +4358,9 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
             removeCallbacks(mCheckFlywheel);
 
             reportScrollStateChange(OnScrollListener.SCROLL_STATE_IDLE);
-            if (clearCache)
+            if (clearCache) {
                 clearScrollingCache();
+            }
             mScroller.abortAnimation();
 
             if (mFlingStrictSpan != null) {
