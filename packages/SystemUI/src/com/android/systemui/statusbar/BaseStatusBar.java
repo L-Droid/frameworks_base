@@ -667,6 +667,19 @@ public abstract class BaseStatusBar extends SystemUI implements
     }
 
     private void launchFloating(PendingIntent pIntent) {
+        boolean allowed = true;
+        try {
+            // preloaded apps are added to the blacklist array when is recreated, handled in the notification manager
+            allowed = mNotificationManager.isPackageAllowedForFloatingMode(pIntent.getCreatorPackage());
+        } catch (android.os.RemoteException ex) {
+            // System is dead
+        }
+        if (!allowed) {
+            String text = mContext.getResources().getString(R.string.floating_mode_blacklisted_app);
+            int duration = Toast.LENGTH_LONG;
+            Toast.makeText(mContext, text, duration).show();
+            return;
+        }
         Intent overlay = new Intent();
         overlay.addFlags(Intent.FLAG_FLOATING_WINDOW | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         try {
@@ -754,29 +767,8 @@ public abstract class BaseStatusBar extends SystemUI implements
                             setIconHiddenByUser(packageNameF, item.isChecked());
                             updateNotificationIcons();
                         } else if (item.getItemId() == R.id.notification_floating_item) {
-                            boolean allowed = true;
-                            try {
-                                // preloaded apps are added to the blacklist array when is recreated, handled in the notification manager
-                                allowed = mNotificationManager.isPackageAllowedForFloatingMode(packageNameF);
-                            } catch (android.os.RemoteException ex) {
-                                // System is dead
-                            }
-                            if (allowed) {
-                                if (contentIntent == null) {
-                                    String text = mContext.getResources().getString(R.string.status_bar_floating_no_interface);
-                                    int duration = Toast.LENGTH_SHORT;
-                                    animateCollapsePanels(CommandQueue.FLAG_EXCLUDE_NONE);
-                                    Toast.makeText(mContext, text, duration).show();
-                                } else {
-                                    launchFloating(contentIntent);
-                                    animateCollapsePanels(CommandQueue.FLAG_EXCLUDE_NONE);
-                                }
-                            } else {
-                                String text = mContext.getResources().getString(R.string.floating_mode_blacklisted_app);
-                                int duration = Toast.LENGTH_LONG;
-                                animateCollapsePanels(CommandQueue.FLAG_EXCLUDE_NONE);
-                                Toast.makeText(mContext, text, duration).show();
-                            }
+                            launchFloating(contentIntent);
+                            animateCollapsePanels(CommandQueue.FLAG_EXCLUDE_NONE);
                         } else {
                             return false;
                         }
