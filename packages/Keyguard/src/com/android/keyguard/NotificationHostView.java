@@ -184,6 +184,9 @@ public class NotificationHostView extends FrameLayout {
         public void onClick(View v) {
             PendingIntent i = statusBarNotification.getNotification().contentIntent;
             if (!swipeGesture && !longpress && i != null) {
+                if ((statusBarNotification.getNotification().flags & Notification.FLAG_AUTO_CANCEL) != 0) {
+                    dismiss(statusBarNotification);
+                }
                 try {
                     Intent intent = i.getIntent();
                     intent.setFlags(
@@ -194,9 +197,6 @@ public class NotificationHostView extends FrameLayout {
                     ActivityManagerNative.getDefault().dismissKeyguardOnNextActivity();
                     i.send();
                     hideAllNotifications();
-                    if ((statusBarNotification.getNotification().flags & Notification.FLAG_AUTO_CANCEL) != 0) {
-                        removeNotification(statusBarNotification);
-                    }
                 } catch (CanceledException ex) {
                     Log.e(TAG, "intent canceled!");
                 } catch (RemoteException ex) {
