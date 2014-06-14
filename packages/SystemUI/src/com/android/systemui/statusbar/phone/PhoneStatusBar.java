@@ -36,7 +36,6 @@ import android.annotation.ChaosLab;
 import android.annotation.ChaosLab.Classification;
 import android.app.ActivityManager;
 import android.app.ActivityManagerNative;
-import android.app.KeyguardManager;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -53,14 +52,10 @@ import android.content.res.Configuration;
 import android.content.res.CustomTheme;
 import android.content.res.Resources;
 import android.database.ContentObserver;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.ColorFilter;
-import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
@@ -95,8 +90,6 @@ import android.view.KeyEvent;
 import android.view.HapticFeedbackConstants;
 import android.view.IWindowManager;
 import android.view.MotionEvent;
-import android.view.Surface;
-import android.view.SurfaceControl;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -110,12 +103,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -161,7 +152,6 @@ import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.lang.StringBuilder;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         NetworkController.UpdateUIListener, BrightnessController.BrightnessStateChangeCallback {
@@ -190,9 +180,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     public static final String CUSTOM_LOCKSCREEN_STATE
             = "com.android.keyguard.custom.STATE";
 
-    private static final String ACTION_NEW_ACTIVITY
-            = "tb.newactivity";
-
     private static final int MSG_OPEN_NOTIFICATION_PANEL = 1000;
     private static final int MSG_CLOSE_PANELS = 1001;
     private static final int MSG_OPEN_SETTINGS_PANEL = 1002;
@@ -212,7 +199,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private static final int STATUS_OR_NAV_TRANSIENT =
             View.STATUS_BAR_TRANSIENT | View.NAVIGATION_BAR_TRANSIENT;
     private static final long AUTOHIDE_TIMEOUT_MS = 3000;
-    private static final int BACKGROUND_UPDATE_DELAY_MS = 333;
 
     private static final float BRIGHTNESS_CONTROL_PADDING = 0.15f;
     private static final int BRIGHTNESS_CONTROL_LONG_PRESS_TIMEOUT = 750; // ms
@@ -371,9 +357,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     boolean mTracking;
     VelocityTracker mVelocityTracker;
 
-    //center clock
-    private TextView mCenterClock;
-
     int[] mAbsPos = new int[2];
 
     // Notification reminder
@@ -418,22 +401,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     int mSystemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE;
 
     DisplayMetrics mDisplayMetrics = new DisplayMetrics();
-
-    //Chameleon
-    private boolean mIsInKeyguard;
-    private int mStatusBarColor;
-    private String mPackageName;
-    private KeyguardManager mKeyguardManager;
-    private ArrayList<ImageView> mIcons = new ArrayList<ImageView>();
-    private ArrayList<TextView> mTexts = new ArrayList<TextView>();
-    private int mCurrentColor = Color.WHITE;
-    private int mBlackColor = Color.BLACK;
-    private int mWhiteColor = Color.WHITE;
-    private boolean mMustChange = false;
-    private boolean mTransparent = false;
-    private String SysDarkKey = "ChameleonSysDark/%s";
-    private String SysWhiteKey = "ChameleonSysWhite/%s";
- 
 
     boolean mTransparentNav = false;
 
@@ -1220,7 +1187,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         mTicker = new MyTicker(context, mStatusBarView);
 
-        mTicker.setStatusBar(this);
         TickerView tickerView = (TickerView)mStatusBarView.findViewById(R.id.tickerText);
         tickerView.mTicker = mTicker;
 
@@ -1291,8 +1257,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mNetworkController.addNetworkSignalChangedCallback(mSignalTextView);
             mNetworkController.addSignalStrengthChangedCallback(mSignalTextView);
             mSignalClusterView.setNetworkController(mNetworkController);
- 
-            mSignalClusterView.setStatusBar(this);
+
             final boolean isAPhone = mNetworkController.hasVoiceCallingFeature();
             if (isAPhone) {
                 mEmergencyCallLabel = (TextView)mStatusBarWindow.findViewById(
@@ -1425,10 +1390,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
         }
 
-        addText((TextView) mStatusBarView.findViewById(R.id.center_clock));
-         addText((TextView) mStatusBarView.findViewById(R.id.clock));
- 
-         mKeyguardManager = (KeyguardManager) mContext.getSystemService(Context.KEYGUARD_SERVICE);
         PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
         mBroadcastReceiver.onReceive(mContext,
                 new Intent(pm.isScreenOn() ? Intent.ACTION_SCREEN_ON : Intent.ACTION_SCREEN_OFF));
@@ -1440,7 +1401,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(ACTION_DEMO);
-        filter.addAction(ACTION_NEW_ACTIVITY);
         filter.addAction(CUSTOM_LOCKSCREEN_STATE);
         filter.addAction(SCHEDULE_REMINDER_NOTIFY);
         context.registerReceiver(mBroadcastReceiver, filter);
@@ -1454,7 +1414,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mNetworkController.setListener(this);
         }
 
-        updateBackground();
         return mStatusBarView;
     }
 
@@ -1775,7 +1734,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 + " icon=" + icon);
         StatusBarIconView view = new StatusBarIconView(mContext, slot, null);
         view.set(icon);
-        refresh();
         mStatusIcons.addView(view, viewIndex, new LinearLayout.LayoutParams(mIconSize, mIconSize));
     }
 
@@ -2000,7 +1958,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         for (int i=0; i<toShow.size(); i++) {
             View v = toShow.get(i);
-            addIcon((ImageView) v);
             if (v.getParent() == null) {
                 mNotificationIcons.addView(v, i, params);
             }
@@ -3129,11 +3086,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             final boolean nbVisible = (newVal & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == 0
                     || (newVal & View.NAVIGATION_BAR_TRANSIENT) != 0;
 
-            if ((newVal & View.STATUS_BAR_TRANSIENT) != 0) {
-                 mTransparent = true;
-                 mStatusBarView.setBackgroundColor(Color.TRANSPARENT);
-             }
-
             sbModeChanged = sbModeChanged && sbVisible;
             nbModeChanged = nbModeChanged && nbVisible;
 
@@ -3239,13 +3191,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     private void checkBarMode(int mode, int windowState, BarTransitions transitions) {
         final boolean anim = (mScreenOn == null || mScreenOn) && windowState != WINDOW_STATE_HIDDEN;
-        if(mode == 0||!anim) {
-             mTransparent = false;
-             updateColor();
-         } else if (mode <= 1||anim) {
-             mTransparent = true;
-             mStatusBarView.setBackgroundColor(Color.TRANSPARENT);
-         }
+        transitions.transitionTo(mode, anim);
     }
 
     private void finishBarAnimations() {
@@ -3849,12 +3795,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 // work around problem where mDisplay.getRotation() is not stable while screen is off (bug 7086018)
                 repositionNavigationBar();
                 notifyNavigationBarScreenOn(true);
-                if (mKeyguardManager.inKeyguardRestrictedInputMode()) {
-                     mTransparent = true;
-                     mStatusBarView.setBackgroundColor(Color.TRANSPARENT);
-                     mIsInKeyguard = true;
-                 }
-                updateBackground();
             } else if (SCHEDULE_REMINDER_NOTIFY.equals(action)) {
                 updateAndNotifyReminder();
             } else if (ACTION_DEMO.equals(action)) {
@@ -3869,12 +3809,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                         }
                     }
                 }
-            } else if(ACTION_NEW_ACTIVITY.equals(action)) {
-                 if (intent != null)
-                     mPackageName = intent.getStringExtra("packagename").trim();
-             updateColor();
-                    
-            } else if (CUSTOM_LOCKSCREEN_STATE.equals(action)) {
+            }
+            else if (CUSTOM_LOCKSCREEN_STATE.equals(action)) {
                 boolean showing = intent.getBooleanExtra("showing", false);
                 if (null != mNavigationBarView) {
                     mNavigationBarView.getBarTransitions().applyTransparent(showing);
@@ -4626,237 +4562,4 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
         }
     }
-
-     boolean black = false;
-
-	public void transform(boolean isBlack) {
-		if (isBlack && !black) {
-			mCurrentColor = mBlackColor;
-			refresh();
-			black = true;
-		} else if (!isBlack && black) {
-			mCurrentColor = mWhiteColor;
-			refresh();
-			black = false;
-		}
-		if (mMustChange) {
-			if (isBlack) {
-				mCurrentColor = mBlackColor;
-				refresh();
-			} else {
-				mCurrentColor = mWhiteColor;
-				refresh();
-			}
-		}
-	}
-
-	private void updateBackground() {
-		try {
-			if (!mScreenOn) {
-				return;
-			}
-			if (mIsInKeyguard
-					&& !mKeyguardManager.inKeyguardRestrictedInputMode()) {
-				updateColor();
-			}
-			if (mHeadsUpVerticalOffset == 0.0f) {
-				mTransparent = true;
-				mStatusBarView.setBackgroundColor(Color.TRANSPARENT);
-			}
-			int mSysColor = getSysColor();
-			transform(isGray(mSysColor));		
-			if (mSysColor == mStatusBarColor) {
-				updateBackgroundDelayed();
-				return;
-			} else {
-				mStatusBarColor = mSysColor;
-			}
-			if (mTransparent) {
-				mStatusBarView.setBackgroundColor(Color.TRANSPARENT);
-				updateBackgroundDelayed();
-				return;
-			}
-			mStatusBarView.setBackgroundColor(mSysColor);
-			updateBackgroundDelayed();
-		} catch (Exception e) {
-			updateBackgroundDelayed();
-		}
-	}
-
-	private void updateColor() {
-        mMustChange = true;
-        mBlackColor = Settings.System.getInt(mContext.getContentResolver(),String.format(SysWhiteKey, mPackageName), Color.BLACK);
-		mWhiteColor = Settings.System.getInt(mContext.getContentResolver(),String.format(SysDarkKey, mPackageName), Color.WHITE);
-	}
-
-	private float getDegreesForRotation(int value) {
-		switch (value) {
-		case Surface.ROTATION_90:
-			return 360f - 90f;
-		case Surface.ROTATION_180:
-			return 360f - 180f;
-		case Surface.ROTATION_270:
-			return 360f - 270f;
-		}
-		return 0f;
-	}
-
-	private boolean isGray(int pixel) {
-		int A, R, G, B;
-		A = Color.alpha(pixel);
-		R = Color.red(pixel);
-		G = Color.green(pixel);
-		B = Color.blue(pixel);
-		int gray = (int) (0.2989 * R + 0.5870 * G + 0.1140 * B);
-
-		// use 128 as threshold, above -> white, below -> black
-		if (gray > 210)
-			return true;
-		return false;
-	}
-
-	private int getSysColor() {
-		Matrix mDisplayMatrix = new Matrix();
-		DisplayMetrics mDisplayMetrics = new DisplayMetrics();
-		mDisplay.getRealMetrics(mDisplayMetrics);
-		float[] dims = { 1, mDisplayMetrics.heightPixels };
-		int rot = mDisplay.getRotation();
-		int mSfHwRotation = android.os.SystemProperties.getInt(
-				"ro.sf.hwrotation", 0) / 90;
-		rot = (rot + mSfHwRotation) % 4;
-		float degrees = getDegreesForRotation(rot);
-		boolean requiresRotation = (degrees > 0);
-		if (requiresRotation) {
-			mDisplayMatrix.reset();
-			mDisplayMatrix.preRotate(-degrees);
-			mDisplayMatrix.mapPoints(dims);
-			dims[0] = Math.abs(dims[0]);
-			dims[1] = Math.abs(dims[1]);
-		}
-		Bitmap captured = SurfaceControl.screenshot((int) dims[0],
-				(int) dims[1]);
-		Bitmap cropped = null;
-		try {
-			if (mTransparent) {
-				if (!requiresRotation)
-					cropped = Bitmap.createBitmap(captured, 0,
-							(int) (getStatusBarHeight() * 0.99), 1, 1);
-				else if ((int) degrees == 90)
-					cropped = Bitmap.createBitmap(captured,
-							(int) (getStatusBarHeight() * 0.99), 0, 1, 1);
-				else if ((int) degrees == 180)
-					cropped = Bitmap.createBitmap(captured, 0, (int) dims[1]
-							- (int) (getStatusBarHeight() * 0.99), 1, 1);
-				else if ((int) degrees == 270)
-					cropped = Bitmap.createBitmap(captured, (int) dims[0]
-							- (int) (getStatusBarHeight() * 0.99), 0, 1, 1);
-			} else {
-				if (!requiresRotation)
-					cropped = Bitmap.createBitmap(captured, 0,
-							(int) (getStatusBarHeight() * 1.04), 1, 1);
-				else if ((int) degrees == 90)
-					cropped = Bitmap.createBitmap(captured,
-							(int) (getStatusBarHeight() * 1.08), 0, 1, 1);
-				else if ((int) degrees == 180)
-					cropped = Bitmap.createBitmap(captured, 0, (int) dims[1]
-							- (int) (getStatusBarHeight() * 1.04), 1, 1);
-				else if ((int) degrees == 270)
-					cropped = Bitmap.createBitmap(captured, (int) dims[0]
-							- (int) (getStatusBarHeight() * 1.08), 0, 1, 1);
-			}
-		} catch (Exception e) {
-			return Color.TRANSPARENT;
-		}
-		captured.recycle();
-		captured = null;
-		int color = cropped.getPixel(0, 0);
-		cropped.recycle();
-		cropped = null;
-		return color;
-	}
-
-	private void setStatusBarColor(int color) {
-		for (ImageView icon : mIcons) {
-			if (icon != null) {
-				icon.setColorFilter(mCurrentColor, PorterDuff.Mode.MULTIPLY);
-			} else {
-				mIcons.remove(icon);
-			}
-		}
-
-		for (TextView tv : mTexts) {
-			if (tv != null) {
-				tv.setTextColor(color);
-			} else {
-				mTexts.remove(tv);
-			}
-		}
-	}
-
-	private void updateBackgroundDelayed() {
-		mHandler.postDelayed(new Runnable() {
-			public void run() {
-				updateBackground();
-			}
-		}, BACKGROUND_UPDATE_DELAY_MS);
-	}
-
-	public void addIcon(ImageView iv) {
-		if (!mIcons.contains(iv)) {
-			iv.setColorFilter(mCurrentColor, PorterDuff.Mode.MULTIPLY);
-			mIcons.add(iv);
-		}
-	}
-
-	public void addText(TextView tv) {
-		if (!mTexts.contains(tv)) {
-			tv.setTextColor(mCurrentColor);
-			mTexts.add(tv);
-		}
-	}
-
-	private void refresh() {
-		setColorForLayout(mStatusIcons, mCurrentColor, PorterDuff.Mode.MULTIPLY);
-		setStatusBarColor(mCurrentColor);
-	}
-
-	private void setColorForLayout(LinearLayout statusIcons, int color,
-			PorterDuff.Mode mode) {
-		if (color == 0)
-			return;
-
-		if (statusIcons == null)
-			return;
-
-		for (int i = 0; i < statusIcons.getChildCount(); i++) {
-			try {
-				ImageView view = (ImageView) statusIcons.getChildAt(i);
-				if (view != null) {
-					view.setColorFilter(color, mode);
-				}
-			} catch (ClassCastException e) {
-
-			}
-		}
-	}
-
-	public void setColorToAllTextSwitcherChildren(TextSwitcher switcher) {
-		if (mCurrentColor != 0) {
-			for (int i = 0; i < switcher.getChildCount(); i++) {
-				TextView view = (TextView) switcher.getChildAt(i);
-				view.setTextColor(mCurrentColor);
-				addText(view);
-			}
-		}
-	}
-
-	public void setColorToAllImageSwitcherChildren(ImageSwitcher switcher) {
-		if (mCurrentColor != 0) {
-			for (int i = 0; i < switcher.getChildCount(); i++) {
-				ImageView view = (ImageView) switcher.getChildAt(i);
-				view.setColorFilter(mCurrentColor, PorterDuff.Mode.MULTIPLY);
-				addIcon(view);
-			}
-		}
-	}
 }
