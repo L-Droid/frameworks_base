@@ -1425,9 +1425,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
         }
 
-        addText((TextView) mStatusBarView.findViewById(R.id.clock));
-
-        mKeyguardManager = (KeyguardManager) mContext.getSystemService(Context.KEYGUARD_SERVICE);
+        addText((TextView) mStatusBarView.findViewById(R.id.center_clock));
+         addText((TextView) mStatusBarView.findViewById(R.id.clock));
+ 
+         mKeyguardManager = (KeyguardManager) mContext.getSystemService(Context.KEYGUARD_SERVICE);
         PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
         mBroadcastReceiver.onReceive(mContext,
                 new Intent(pm.isScreenOn() ? Intent.ACTION_SCREEN_ON : Intent.ACTION_SCREEN_OFF));
