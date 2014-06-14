@@ -112,4 +112,13 @@
     <string name="pie_phone_status_airplane_mode">Режим \"В самолете\" включен</string>
     <string name="pie_phone_status_emergency_only">Только экстренные вызовы</string>
 
+    <!-- Blacklisted app for floating mode -->
+    <string name="floating_mode_blacklisted_app">Текущее приложение занесено в черный список, и оно не сможет работать должным образом в режиме плавающего окна.</string>
+
+    <!-- First time run hover -->
+    <string name="hover_cling_text">Режим Hover сейчас включен.\n\nПри получении нового уведомления, всплывающая строка известит об этом и позволит ответить на уведомление не покидая текущего приложения.</string>
+
+    <!-- Title shown when app provides no interface -->
+    <string name="status_bar_floating_no_interface">Приложение не имеет интерфейса</string>
+
 </resources>
