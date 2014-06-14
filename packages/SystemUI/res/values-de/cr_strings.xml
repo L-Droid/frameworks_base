@@ -115,5 +115,14 @@
     <string name="pie_phone_status_no_service">Kein Dienst</string>
     <string name="pie_phone_status_airplane_mode">Flugzeugmodus</string>
     <string name="pie_phone_status_emergency_only">Nur Notrufe</string>
+    
+    <!-- Blacklisted app for floating mode -->
+    <string name="floating_mode_blacklisted_app">Die aktuelle App wird vom Schwebe-Modus ignoriert und könnte nicht funktionieren wie erwartet</string>
 
+    <!-- First time run hover -->
+    <string name="hover_cling_text">Hover ist jetzt aktiviert!\n\nWenn eine neue Benachrichtigung eingeht, wird eine Einblendung am oberen Bildschirmrand gezeigt die es ermöglicht auf eine Benachrichtigung zu reagieren, ohne die aktuelle Anwendung zu verlassen.</string>
+
+    <!-- Title shown when app provides no interface -->
+    <string name="status_bar_floating_no_interface">Anwendung besitzt keine Benutzeroberfläche</string>
+    
 </resources>
