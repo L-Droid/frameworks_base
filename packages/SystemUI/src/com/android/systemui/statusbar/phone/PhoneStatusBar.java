@@ -26,7 +26,6 @@ import static com.android.systemui.statusbar.phone.BarTransitions.MODE_OPAQUE;
 import static com.android.systemui.statusbar.phone.BarTransitions.MODE_SEMI_TRANSPARENT;
 import static com.android.systemui.statusbar.phone.BarTransitions.MODE_TRANSLUCENT;
 import static com.android.systemui.statusbar.phone.BarTransitions.MODE_LIGHTS_OUT;
-import static com.android.systemui.statusbar.phone.BarTransitions.MODE_TRANSPARENT;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -49,7 +48,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
-import android.content.res.CustomTheme;
+import android.content.res.ThemeConfig;
 import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.graphics.Bitmap;
@@ -79,7 +78,6 @@ import android.os.UserHandle;
 import android.provider.Settings;
 import android.service.notification.StatusBarNotification;
 import android.telephony.MSimTelephonyManager;
-import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.EventLog;
 import android.util.Log;
@@ -104,7 +102,6 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -142,7 +139,6 @@ import com.android.systemui.statusbar.policy.MSimNetworkController;
 import com.android.systemui.statusbar.policy.NetworkController;
 import com.android.systemui.statusbar.policy.NotificationRowLayout;
 import com.android.systemui.statusbar.policy.OnSizeChangedListener;
-import com.android.systemui.statusbar.policy.RotationLockController;
 
 import java.io.File;   
 
@@ -378,7 +374,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     // last theme that was applied in order to detect theme change (as opposed
     // to some other configuration change).
-    CustomTheme mCurrentTheme;
+    ThemeConfig mCurrentTheme;
     private boolean mRecreating = false;
 
     private boolean mBrightnessControl;
@@ -835,9 +831,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 .getDefaultDisplay();
         updateDisplaySize();
 
-        CustomTheme currentTheme = mContext.getResources().getConfiguration().customTheme;
+        ThemeConfig currentTheme = mContext.getResources().getConfiguration().themeConfig;
         if (currentTheme != null) {
-            mCurrentTheme = (CustomTheme)currentTheme.clone();
+            mCurrentTheme = (ThemeConfig)currentTheme.clone();
         }
 
         mCurrUiThemeMode = mContext.getResources().getConfiguration().uiThemeMode;
@@ -1648,7 +1644,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         if (DEBUG) Log.v(TAG, "addNavigationBar: about to add " + mNavigationBarView);
         if (mNavigationBarView == null) return;
 
-        CustomTheme newTheme = mContext.getResources().getConfiguration().customTheme;
+        ThemeConfig newTheme = mContext.getResources().getConfiguration().themeConfig;
         if (newTheme != null &&
                 (mCurrentTheme == null || !mCurrentTheme.equals(newTheme))) {
             // Nevermind, this will be re-created
@@ -4157,11 +4153,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         final Resources res = context.getResources();
 
         // detect theme change.
-        CustomTheme newTheme = res.getConfiguration().customTheme;
+        ThemeConfig newTheme = res.getConfiguration().themeConfig;
         int uiThemeMode = res.getConfiguration().uiThemeMode;
         if (newTheme != null &&
                 (mCurrentTheme == null || !mCurrentTheme.equals(newTheme))) {
-            mCurrentTheme = (CustomTheme)newTheme.clone();
+            mCurrentTheme = (ThemeConfig)newTheme.clone();
             recreateStatusBar();
 
         if (uiThemeMode != mCurrUiThemeMode) {
