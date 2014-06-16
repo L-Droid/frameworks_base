@@ -4708,6 +4708,27 @@ public final class Settings {
         public static final String HOVER_STATE = "hover_state";
 
         /**
+         * Hover: Exclude non-clearable notifications, default is 0 (off).
+         *
+         * @hide
+         */
+        public static final String HOVER_EXCLUDE_NON_CLEARABLE = "hover_exclude_non_clearable";
+
+        /**
+         * Hover: Exclude low priority notifications, default is 0 (off).
+         *
+         * @hide
+         */
+        public static final String HOVER_EXCLUDE_LOW_PRIORITY = "hover_exclude_low_priority";
+
+        /**
+         * Hover: Only show up if StatusBar is hidden, default is 1 (on).
+         *
+         * @hide
+         */
+        public static final String HOVER_REQUIRE_FULLSCREEN_MODE = "hover_require_fullscreen_mode";
+
+        /**
          * Recent panel: Show topmost task
          *
          * @hide
