@@ -125,4 +125,7 @@
     <!-- Title shown when app provides no interface -->
     <string name="status_bar_floating_no_interface">Anwendung besitzt keine Benutzeroberfläche</string>
     
+    <!-- Title shown in recents popup for showing app in floating mode -->
+    <string name="status_bar_recent_floating_item_title">Schwebe-Modus</string>
+
 </resources>
