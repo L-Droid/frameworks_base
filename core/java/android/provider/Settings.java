@@ -4954,6 +4954,13 @@ public final class Settings {
         public static final String PROGRESSBAR_INTERPOLATOR = "progressbar_interpolator";
 
         /**
+         * Recent panel: Show topmost task
+         *
+         * @hide
+         */
+        public static final String RECENT_PANEL_SHOW_TOPMOST = "recent_panel_show_topmost";
+
+        /**
          * Whether to use the custom status bar header or not
          * @hide
          */
