@@ -32,7 +32,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.CancellationSignal;
 import android.os.OperationCanceledException;
-import android.os.RemoteException;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.util.Log;
@@ -178,7 +177,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
             result.client = client;
             result.cursor = cursor;
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             Log.w(TAG, "Failed to query", e);
             result.exception = e;
             ContentProviderClient.releaseQuietly(client);
