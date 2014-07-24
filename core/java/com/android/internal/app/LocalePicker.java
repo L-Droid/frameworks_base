@@ -36,6 +36,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.Collator;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -105,21 +106,22 @@ public class LocalePicker extends ListFragment {
         return constructAdapter(context, layoutId, fieldId, false /* disable pseudolocales */);
     }
 
-    public static List<LocaleInfo> getAllAssetLocales(Context context, boolean isInDeveloperMode) {
+    public static ArrayAdapter<LocaleInfo> constructAdapter(Context context,
+            final int layoutId, final int fieldId, final boolean isInDeveloperMode) {
         final Resources resources = context.getResources();
 
-        final String[] locales = Resources.getSystem().getAssets().getLocales();
+        String[] locales = Resources.getSystem().getAssets().getLocales();
         List<String> localeList = new ArrayList<String>(locales.length);
         Collections.addAll(localeList, locales);
         if (isInDeveloperMode) {
             if (!localeList.contains("zz_ZZ")) {
                 localeList.add("zz_ZZ");
             }
-            /** - TODO: Enable when zz_ZY Pseudolocale is complete
-             *  if (!localeList.contains("zz_ZY")) {
-             *      localeList.add("zz_ZY");
-             *	}
-             */
+        /** - TODO: Enable when zz_ZY Pseudolocale is complete
+         *  if (!localeList.contains("zz_ZY")) {
+         *      localeList.add("zz_ZY");
+         *	}
+         */
         }
 
         Collections.sort(localeList);
@@ -176,13 +178,6 @@ public class LocalePicker extends ListFragment {
         }
 
         Collections.sort(localeInfos);
-        return localeInfos;
-    }
-
-    public static ArrayAdapter<LocaleInfo> constructAdapter(Context context,
-            final int layoutId, final int fieldId, final boolean isInDeveloperMode) {
-        final List<LocaleInfo> localeInfos = getAllAssetLocales(context, isInDeveloperMode);
-
         final LayoutInflater inflater =
                 (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         return new ArrayAdapter<LocaleInfo>(context, layoutId, fieldId, localeInfos) {
