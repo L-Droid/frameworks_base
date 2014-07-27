@@ -4507,11 +4507,6 @@ public final class Settings {
         public static final String KEYBOARD_ROTATION_TIMEOUT = "keyboard_rotation_timeout";
 
         /**
-         * @hide
-         */
-        public static final String PROXIMITY_ON_WAKE = "proximity_on_wake";
-
-        /**
          * Forces formal text input.  1 to replace emoticon key with enter key.
          * @hide
          */
