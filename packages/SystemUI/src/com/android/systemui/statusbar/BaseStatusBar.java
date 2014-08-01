@@ -101,6 +101,7 @@ import com.android.systemui.SearchPanelView;
 import com.android.systemui.SystemUI;
 import com.android.systemui.cm.SpamMessageProvider;
 import com.android.systemui.slimrecent.RecentController;
+import com.android.systemui.statusbar.NotificationData.Entry;
 import com.android.systemui.statusbar.notification.Hover;
 import com.android.systemui.statusbar.notification.HoverCling;
 import com.android.systemui.statusbar.notification.NotificationHelper;
@@ -1768,9 +1769,6 @@ public abstract class BaseStatusBar extends SystemUI implements
         if (contentIntent != null) {
             final View.OnClickListener listener =
                     mNotificationHelper.getNotificationClickListener(entry, headsUp, false);
-            entry.content.setOnClickListener(listener);
-            entry.floatingIntent = makeClicker(contentIntent,
-                    notification.getPackageName(), notification.getTag(), notification.getId());
             entry.content.setOnClickListener(listener);
         } else {
             entry.content.setOnClickListener(null);
