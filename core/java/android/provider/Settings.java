@@ -4694,6 +4694,13 @@ public final class Settings {
         public static final String PEEK_WAKE_TIMEOUT = "peek_wake_timeout";
 
         /**
+         * Recent panel background color
+         *
+         * @hide
+         */
+        public static final String RECENT_PANEL_BG_COLOR = "recent_panel_bg_color";
+
+        /**
          * Whether or not to use the app sidebar
          *
          * @hide
