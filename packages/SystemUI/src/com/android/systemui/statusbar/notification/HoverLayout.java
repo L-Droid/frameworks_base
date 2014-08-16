@@ -113,8 +113,14 @@ public class HoverLayout extends RelativeLayout implements ExpandHelper.Callback
             case MotionEvent.ACTION_OUTSIDE:
                 if (!mTouchOutside) {
                     mHover.clearHandlerCallbacks();
-                    // hide Hover after 1.25 seconds
-                    mHover.startMicroHideCountdown();
+                    if (mHover.microFadeOutDelay() == 200) {
+                        // Normal or instant micro fade out delay will be seted
+                        // depends on Hover.java class
+                        mHover.startMicroHideCountdown();
+                    } else {
+                        // 1.25 if not expanded, user ignores it
+                        mHover.startMicroHideCountdown();
+                    }
                     mTouchOutside = true;
                 }
 

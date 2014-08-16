@@ -76,7 +76,6 @@ public class Hover {
 
     private boolean mAnimatingVisibility;
     private boolean mAttached;
-    private boolean mHasFlipSettings;
     private boolean mHiding;
     private boolean mShowing;
     private boolean mUserLocked;
@@ -119,10 +118,6 @@ public class Hover {
         mNotificationList = new ArrayList<HoverNotification>();
         mStatusBarNotifications = new ArrayList<StatusBarNotification>();
         mWindowManagerService = WindowManagerGlobal.getWindowManagerService();
-
-        // check if we're on phone, we discriminate hover size,
-        // on phone matches parent width, on tablets notification panel one
-        mHasFlipSettings = mContext.getResources().getBoolean(R.bool.config_hasFlipSettingsPanel);
 
         // root hover view
         mNotificationView = (FrameLayout) mHoverLayout.findViewById(R.id.hover_notification);
@@ -244,7 +239,7 @@ public class Hover {
     }
 
     private WindowManager.LayoutParams getHoverLayoutParams() {
-        int width = mHasFlipSettings ? WindowManager.LayoutParams.MATCH_PARENT : mHoverTabletWidth;
+        int width = isPhone() ? WindowManager.LayoutParams.MATCH_PARENT : mHoverTabletWidth;
         WindowManager.LayoutParams lp = getLayoutParams(
                 width,
                 WindowManager.LayoutParams.WRAP_CONTENT,
@@ -408,6 +403,10 @@ public class Hover {
         return getCurrentNotification().getLayout().hasOnClickListeners();
     }
 
+    public boolean isPhone() {
+        return mContext.getResources().getBoolean(R.bool.config_hasFlipSettingsPanel);
+    }
+
     public void dismissHover(boolean instant, boolean quit) {
         hideCurrentNotification(instant, quit);
     }
@@ -443,7 +442,7 @@ public class Hover {
             currentNotification.getEntry().row.setExpanded(false);
 
             // hide status bar right before showing hover
-            if (mHasFlipSettings) mStatusBar.animateStatusBarOut();
+            mStatusBar.animateStatusBarOut();
 
             final View notificationLayout = getCurrentLayout();
             notificationLayout.setY(-getCurrentHeight());
@@ -564,7 +563,7 @@ public class Hover {
             if (mUserLocked) setLocked(false); // unlock if locked
 
             // show statusbar
-            if (mHasFlipSettings) mStatusBar.animateStatusBarIn();
+            mStatusBar.animateStatusBarIn();
 
             // animate container to make sure we hide hover
             mNotificationView.animate().yBy(-mNotificationView.getHeight())
@@ -753,7 +752,7 @@ public class Hover {
                 addNotificationToList(notif);
             } else if (isOnList && show) {
                 notif = getNotificationForEntry(entry);
-                // if updates are for current notification live update entry, content and click listener 
+                // if updates are for current notification update click listener
                 HoverNotification current = getCurrentNotification();
                 if (current != null && getEntryDescription(current.getEntry()).equals(getEntryDescription(entry))) {
                     current.setEntry(entry);
