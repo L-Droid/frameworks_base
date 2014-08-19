@@ -141,4 +141,8 @@
 
   <java-symbol type="string" name="disable_navigation_pie_error" />
 
+  <!-- Animation of toggle last app -->
+  <java-symbol type="anim" name="last_app_in" />
+  <java-symbol type="anim" name="last_app_out" />
+
 </resources>
