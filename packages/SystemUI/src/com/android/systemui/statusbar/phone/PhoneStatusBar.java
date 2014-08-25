@@ -110,6 +110,7 @@ import android.widget.ViewFlipper;
 
 
 import com.android.internal.statusbar.StatusBarIcon;
+import com.android.internal.util.cm.ActionUtils;
 import com.android.systemui.BatteryMeterView.BatteryMeterMode;
 import com.android.systemui.DemoMode;
 import com.android.systemui.DockBatteryMeterView;
@@ -1649,6 +1650,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             awakenDreams();
             recentsLongPress();
             return true;
+            return ActionUtils.switchToLastApp(mContext, mCurrentUserId);
         }
     };
 
