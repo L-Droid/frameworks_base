@@ -4167,6 +4167,13 @@ public final class Settings {
          */
          public static final String MEDIA_SCANNER_ON_BOOT = "media_scanner_on_boot";
 
+         /**
+         * Global stats collection
+         *
+         * @hide
+         */
+        public static final String STATS_COLLECTION = "stats_collection";
+
         /**
          * down Swipe Action
          *
@@ -4759,6 +4766,14 @@ public final class Settings {
          * @hide
          */
         public static final String CALL_UI_IN_BACKGROUND = "call_ui_in_background";
+
+        /**
+         * In call dialpad state.
+         * 0 = hidden
+         * 1 = showing
+         * @hide
+         */
+        public static final String DIALPAD_STATE = "dialpad_state";
 
         /**
          * Whether incomming call UI stays in background and shows as heads up notification

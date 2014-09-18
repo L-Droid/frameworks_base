@@ -183,7 +183,6 @@ public class AwesomeAnimationHelper {
             default:
                 value = res.getString(com.android.internal.R.string.action_null);
                 break;
-
         }
         return value;
     }

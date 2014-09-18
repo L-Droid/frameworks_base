@@ -2709,7 +2709,7 @@ public class Activity extends ContextThemeWrapper
                            mChangedFlags = false;
                            finishSnap(isValidSnap() && mTimeoutDone);
                            discardTimeout();
-                           mChangedPreviousRange = false;
+                           mChangedPreviousRange = true;
                        }
                        break;
              }

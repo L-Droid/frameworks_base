@@ -41,7 +41,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CarbonLogoActivity extends Activity {
+public class LDroidLogoActivity extends Activity {
     FrameLayout mContent;
     int mCount;
     final Handler mHandler = new Handler();
@@ -69,12 +69,12 @@ public class CarbonLogoActivity extends Activity {
         lp.gravity = Gravity.CENTER;
 
         final ImageView bglogo = new ImageView(this);
-        bglogo.setImageResource(com.android.internal.R.drawable.carbon_bg_logo);
+        bglogo.setImageResource(com.android.internal.R.drawable.ldroid_bg_logo);
         bglogo.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         bglogo.setVisibility(View.INVISIBLE);
 
         final ImageView logo = new ImageView(this);
-        logo.setImageResource(com.android.internal.R.drawable.carbon_logo);
+        logo.setImageResource(com.android.internal.R.drawable.ldroid_logo);
         logo.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         logo.setVisibility(View.INVISIBLE);
 
@@ -99,7 +99,7 @@ public class CarbonLogoActivity extends Activity {
         tv.setTextColor(TEXT_COLOR);
         tv.setGravity(Gravity.CENTER);
         tv.setTransformationMethod(new AllCapsTransformationMethod(this));
-        tv.setText("Elegant - CarbonROM - Smooth");
+        tv.setText("L-Droid is running this #*$!");
         tv.setVisibility(View.INVISIBLE);
 
         mContent.addView(bg);
@@ -176,7 +176,7 @@ public class CarbonLogoActivity extends Activity {
                             | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
                         .addCategory("com.android.internal.category.PLATLOGO"));
                 } catch (ActivityNotFoundException ex) {
-                    android.util.Log.e("CarbonLogoActivity", "Couldn't catch a break.");
+                    android.util.Log.e("LDroidLogoActivity", "Couldn't catch a break.");
                 }
                 finish();
                 return true;

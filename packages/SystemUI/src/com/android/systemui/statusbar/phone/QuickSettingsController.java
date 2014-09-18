@@ -24,7 +24,6 @@ import static com.android.internal.util.cm.QSConstants.TILE_BATTERYSAVER;
 import static com.android.internal.util.cm.QSConstants.TILE_BLUETOOTH;
 import static com.android.internal.util.cm.QSConstants.TILE_BRIGHTNESS;
 import static com.android.internal.util.cm.QSConstants.TILE_CAMERA;
-import static com.android.internal.util.cm.QSConstants.TILE_CARBON;
 import static com.android.internal.util.cm.QSConstants.TILE_COMPASS;
 import static com.android.internal.util.cm.QSConstants.TILE_DELIMITER;
 import static com.android.internal.util.cm.QSConstants.TILE_EXP_DESKTOP;
@@ -83,7 +82,6 @@ import com.android.systemui.quicksettings.BluetoothTile;
 import com.android.systemui.quicksettings.BrightnessTile;
 import com.android.systemui.quicksettings.BugReportTile;
 import com.android.systemui.quicksettings.CameraTile;
-import com.android.systemui.quicksettings.CarbonTile;
 import com.android.systemui.quicksettings.CompassTile;
 //import com.android.systemui.quicksettings.DockBatteryTile;
 import com.android.systemui.quicksettings.EqualizerTile;
@@ -245,8 +243,6 @@ public class QuickSettingsController {
                 qs = new BrightnessTile(mContext, this);
             } else if (tile.equals(TILE_CAMERA) && cameraSupported) {
                 qs = new CameraTile(mContext, this, mHandler);
-            } else if (tile.equals(TILE_CARBON)) {
-                qs = new CarbonTile(mContext, this);
             } else if (tile.equals(TILE_BATTERYSAVER)) {
                 qs = new BatterySaverTile(mContext, this);
             } else if (tile.equals(TILE_RINGER)) {
