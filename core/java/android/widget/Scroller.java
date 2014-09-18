@@ -114,8 +114,6 @@ public class Scroller  {
     // A context-specific coefficient adjusted to physical values.
     private float mPhysicalCoeff;
 
-    private final PowerManager mPm;
-
     static {
         float x_min = 0.0f;
         float y_min = 0.0f;
