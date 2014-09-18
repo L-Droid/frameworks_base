@@ -334,4 +334,8 @@
      <string name="floating_window_snap_right">Snap right</string>
      <string name="floating_window_minimize">Minimize</string>
 
+    <!-- Theme installation error notification -->
+    <string name="theme_install_error_title">Failed to install theme</string>
+    <string name="theme_install_error_message">%s failed to install</string>
+
 </resources>
