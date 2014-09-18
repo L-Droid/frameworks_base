@@ -2681,38 +2681,6 @@ public class Activity extends ContextThemeWrapper
             if (isUnSnap()) {
                 mScaleGestureDetector.onTouchEvent(ev);
             }
-            int actionBarHeight = getActionBarHeight(false);
-            switch (ev.getAction()) {
-                  case MotionEvent.ACTION_DOWN:
-                       setTouchViewDown(ev.getX(), ev.getY());
-                       onUserInteraction();
-                       updateFocusApp();
-                       if (viewY < actionBarHeight) {
-                           if (!mChangedPreviousRange) {
-                               setPreviousTouchRange(ev.getRawX(), ev.getRawY());
-                               mChangedPreviousRange = true;
-                           }
-                       }
-                       break;
-                  case MotionEvent.ACTION_MOVE:
-                       if (viewY < actionBarHeight) {
-                           changeFlagsLayoutParams();
-                           setTouchViewMove(ev.getRawX(), ev.getRawY());
-                           if (mRestorePosition && moveRangeAboveLimit(ev)) {
-                               restoreOldPosition();
-                           }
-                           showSnap((int) ev.getRawX(), (int) ev.getRawY());
-                       }
-                       break;
-                  case MotionEvent.ACTION_UP:
-                       if (viewY < actionBarHeight) {
-                           mChangedFlags = false;
-                           finishSnap(isValidSnap() && mTimeoutDone);
-                           discardTimeout();
-                           mChangedPreviousRange = true;
-                       }
-                       break;
-             }
         } else {
              if (ev.getAction() == MotionEvent.ACTION_DOWN) {
                  onUserInteraction();
