@@ -114,6 +114,7 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
 
     private ImageView mClearAllRecents;
     private CircleMemoryMeter mRamCircle;
+
     private boolean mUpdateMemoryIndicator;
     private LinearColorBar mRamUsageBar;
     private long mFreeMemory;
@@ -400,7 +401,6 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
     private void updateRamCircle() {
         int mRamCircleStatus = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.RAM_CIRCLE, Constants.RAM_CIRCLE_OFF);
-
         if (mRamCircleStatus != Constants.RAM_CIRCLE_OFF && mRamCircle != null) {
             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams)
                     mRamCircle.getLayoutParams();

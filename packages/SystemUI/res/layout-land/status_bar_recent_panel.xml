@@ -133,6 +133,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="2dp"
+                android:layout_gravity="bottom|right"
                 android:padding="10dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_notify_clear"
