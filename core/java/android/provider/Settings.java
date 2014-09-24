@@ -5015,6 +5015,15 @@ public final class Settings {
          */
         public static final String PEEK_STATE = "peek_state";
 
+
+        /**
+         * Heads Up Master Switch
+         *
+         * @hide
+         */
+        public static final String HEADS_UP_MASTER_SWITCH = "heads_up_master_switch";
+
+
         /**
          * Holds the text for the Carrier label. An empty string
          * will bring the default text back.
