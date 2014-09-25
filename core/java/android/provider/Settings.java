@@ -5064,6 +5064,18 @@ public final class Settings {
          public static final String ANIMATION_CONTROLS_NO_OVERRIDE = "animation_controls_no_override";
 
         /**
+         * Heads Up background color
+         * @hide
+         */
+        public static final String HEADS_UP_BG_COLOR = "heads_up_bg_color";
+
+        /**
+         * Heads Up text color
+         * @hide
+         */
+        public static final String HEADS_UP_TEXT_COLOR = "heads_up_text_color";
+
+        /**
          * The style of the incoming call screen.
          * Default is {@link INCOMING_CALL_STYLE_FULLSCREEN_PHOTO}.
          * @hide
