@@ -274,18 +274,6 @@ public abstract class BaseStatusBar extends SystemUI implements
 
     private EdgeGestureManager mEdgeGestureManager;
 
-    // Notification helper
-    protected NotificationHelper mNotificationHelper;
-
-    // Peek
-    protected Peek mPeek;
-
-    // Halo
-    protected Halo mHalo = null;
-    protected Ticker mTicker;
-    protected boolean mHaloActive;
-    public boolean mHaloTaskerActive = false;
-
     // UI-specific methods
 
     /**
@@ -1310,10 +1298,10 @@ public abstract class BaseStatusBar extends SystemUI implements
         private KeyguardTouchDelegate mKeyguard;
         private PendingIntent mPendingIntent;
         private Intent mIntent;
-        private String mPkg;
-        private String mTag;
-        private int mId;
-        private boolean mFloat;
+        public String mPkg;
+        public String mTag;
+        public int mId;
+        public boolean mFloat;
 
         public NotificationClicker(PendingIntent intent, String pkg, String tag, int id) {
             this();
