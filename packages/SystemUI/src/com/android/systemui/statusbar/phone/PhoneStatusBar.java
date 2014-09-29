@@ -4395,7 +4395,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         int density = res.getConfiguration().densityDpi;
         if (density != mCurrentDensity) {
             mCurrentDensity = density;
-            recreateStatusBar(true);
+            recreateStatusBar();
             recreatePie(isPieEnabled());
             return;
         }

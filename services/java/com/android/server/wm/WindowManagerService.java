@@ -11104,6 +11104,12 @@ public class WindowManagerService extends IWindowManager.Stub
 
     /* @hide */
     @Override
+    public int getSystemUIVisibility() {
+        return mLastStatusBarVisibility;
+    }
+
+    /* @hide */
+    @Override
     public void updateStatusBarNavBarHeight() {
         mPolicy.updateStatusBarNavBarHeight();
     }
@@ -11220,11 +11226,5 @@ public class WindowManagerService extends IWindowManager.Stub
         } else {
             return new Rect(0, 0, (int)(appWidth * 0.9f) , (int)(appHeight * 0.7f));
         }
-    }
-
-    /* @hide */
-    @Override
-    public int getSystemUIVisibility() {
-        return mLastStatusBarVisibility;
     }
 }

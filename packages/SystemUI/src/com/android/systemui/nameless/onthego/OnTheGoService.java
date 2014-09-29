@@ -46,7 +46,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.android.internal.util.nameless.NamelessUtils;
-import com.android.internal.util.liquid.TorchConstants;
+import com.android.internal.util.slim.TorchConstants;
 import com.android.internal.util.nameless.listeners.ShakeDetector;
 import com.android.systemui.R;
 

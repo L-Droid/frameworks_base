@@ -332,4 +332,9 @@ interface IWindowManager
      * @hide
      */
     int getSystemUIVisibility();
+
+    /**
+     * @hide
+     */
+    void updateStatusBarNavBarHeight();
 }
