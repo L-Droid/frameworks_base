@@ -18,6 +18,44 @@
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
+    <!-- Defines the shutdown options shown in the reboot dialog. -->
+    <array name="shutdown_reboot_options" translatable="false">
+        <item>@string/reboot_reboot</item>
+        <item>@string/reboot_soft</item>
+        <item>@string/reboot_recovery</item>
+        <item>@string/reboot_bootloader</item>
+    </array>
+
+    <!-- Do not translate. Defines the shutdown actions passed to the kernel.
+         The first item should be empty for regular reboot. -->
+    <string-array name="shutdown_reboot_actions" translatable="false">
+        <item></item>
+        <item>soft_reboot</item>
+        <item>recovery</item>
+        <item>bootloader</item>
+    </string-array>
+
+    <!-- Do not translate. Defines the mapping of notification package names
+         from the actual triggering package to the user selectable package.
+         E.g. GTalk notifications come via Google Services Framework
+         Format: [triggering package]|[user package] -->
+    <string-array name="notification_light_package_mapping" translatable="false">
+        <item>com.google.android.gsf|com.google.android.talk</item>
+    </string-array>
+
+    <!-- Performance profiles -->
+    <string-array name="perf_profile_entries" translatable="false">
+        <item>@string/perf_profile_pwrsv</item>
+        <item>@string/perf_profile_bal</item>
+        <item>@string/perf_profile_perf</item>
+    </string-array>
+
+    <string-array name="perf_profile_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <!-- Animation Control - Animation Chooser List -->
     <string-array name="anim_controls_entries">
         <item>@string/animation_default</item>
